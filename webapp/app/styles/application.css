@@ -1,0 +1,246 @@
+/* General */
+/*body {
+  background: #e2e1e0;
+}
+*/
+.hidden {
+  display: none;
+}
+
+/* Header */
+.bg-grey {
+  background-color: #DDDDDD;
+  border-bottom: 1px solid silver;
+}
+
+h2 {
+  font-size: 2.4rem !important;
+}
+
+h3 {
+  font-size: 2.2rem !important;
+}
+
+h2, h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+/* Menu */
+.hamburger {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.sidenav {
+  height: 100%;
+  position: fixed;
+  z-index: 99;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+  /*transition: 0.5s;*/
+  width: 0;
+  opacity: 0.97;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 1.8em;
+  color: #818181;
+  display: block;
+  /*transition: 0.3s*/
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+  color: #f1f1f1;
+}
+
+.sidenav > .close {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px !important;
+  margin-left: 50px;
+}
+
+/* Cards */
+.columns.cards.flex {
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+.card {
+  color: rgba(51, 51, 51, 0.9);
+  min-width: 300px;
+  cursor: pointer;
+}
+
+.card.material {
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card.material:hover {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+h4.card-title {
+  margin-top: 10px !important;
+}
+
+/*
+@media screen and (min-width: 468px ) {
+  h4.card-title {
+    height: 35px;
+  }
+}
+*/
+
+.transaction.amount {
+  padding: 0;
+  margin: 15px 0px 5px 0;
+  font-size: 1.2em;
+}
+
+.card-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body {
+  word-break: break-all;
+  overflow: auto;
+}
+
+.toast.details > .header {
+  font-size: 1.5em;
+}
+
+.toast.details > .meta {
+  font-size: 1.1em;
+}
+
+.toast.details > .footer {
+  font-size: 1.3em;
+}
+
+/* Margin */
+.margin-t-10 {
+  margin-top: 10px;
+}
+
+.margin-t-50 {
+  margin-top: 50px;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.margin-b-10 {
+  margin-bottom: 10px;
+}
+
+/* Progress bar */
+.ui.tiny.progress {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  width: 100%;
+  z-index: 102;
+  font-size: .85714286rem;
+}
+
+.ui.progress {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  border: none;
+  box-shadow: none;
+  /*background: rgba(0,0,0,.1);*/
+  padding: 0;
+  border-radius: 0;
+}
+
+.ui.tiny.progress .bar {
+  height: .5em;
+}
+
+.ui.active.progress .bar {
+  position: relative;
+  width: 100%;
+  -webkit-animation: progress-active 0s ease infinite;
+  animation: progress-active 0s ease infinite;
+  background: #5764c6;
+}
+
+.ui.progress .bar {
+  height: 1.75em;
+  display: block;
+  line-height: 1;
+  position: relative;
+  width: 0;
+}
+
+@keyframes progress-active {
+  0% {
+    opacity: 0.7;
+    width: 0;
+  }
+  100% {
+    opacity: 0.3;
+    width: 100%;
+  }
+}
+
+/* Form */
+.form-group.buttons {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.btn.btn-secondary {
+  background: #8683e2;
+  border-color: #7875d1;
+  color: #fff;
+}
+.btn.btn-secondary:focus {
+  background: #4f5dc3;
+}
+.btn.btn-secondary:hover {
+  background: #4d4b87;
+  color: #fff;
+}
+.btn.btn-secondary:active,
+.btn.btn-secondary.active {
+  background: #8683e2;
+  border-color: #7875d1;
+  color: #fff;
+}
+.validation.error {
+  color: red;
+}
+
+/* buttons */
+.btn-fixed {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 2;
+}
+
+.btn-circle {
+  border-radius: 25px !important;
+  font-size: 2rem !important;
+  height: 50px !important;
+  width: 50px;
+}

@@ -1,0 +1,12 @@
+package: api
+import:
+- package: github.com/jmoiron/sqlx
+- package: github.com/mattn/go-sqlite3
+  version: ~1.1.0
+- package: github.com/stretchr/testify
+  version: ~1.1.3
+- package: github.com/kataras/iris
+  version: ~3.0.0
+- package: github.com/iris-contrib/middleware
+  subpackages:
+  - cors

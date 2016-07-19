@@ -1,0 +1,19 @@
+# generic
+.DS_Store
+.thumb
+*~
+*.swp
+*.log
+
+# js
+node_modules
+dist
+
+# golang
+bin
+pkg
+github.com
+golang.org
+vendor
+*.db
+main
