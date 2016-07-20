@@ -31,7 +31,7 @@ func (this *Controller) FetchAll(ctx *iris.Context) {
 		transactions = []Transaction{}
 	}
 	status := 500
-	link := ""
+	var link string
 	if err == nil {
 		status = 200
 		previous := page - 1
@@ -40,6 +40,8 @@ func (this *Controller) FetchAll(ctx *iris.Context) {
 		}
 		next := page + 1
 		link = fmt.Sprintf(`</api/v1/transactions?page=%d>; rel="previous", </api/v1/transactions?page=%d>; rel="next"`, previous, next)
+	} else {
+		log.Println("Error in FetchAll.", err)
 	}
 	ctx.SetHeader("link", link)
 	ctx.JSON(status, transactions)
@@ -50,7 +52,7 @@ func (this *Controller) FetchOne(ctx *iris.Context) {
 	err, transaction := service.FetchOne(id)
 	status := 200
 	if err != nil {
-		log.Println("Error FetchOne id=", id, err)
+		log.Println("Error in FetchOne. ID =", id, err)
 		status = 404
 	}
 	ctx.JSON(status, transaction)
@@ -61,7 +63,7 @@ func (this *Controller) Delete(ctx *iris.Context) {
 	err := service.Delete(id)
 	status := 204
 	if err != nil {
-		log.Println("Error Delete.", err)
+		log.Println("Error in Delete.", err)
 		status = 500
 	}
 	ctx.JSON(status, nil)
@@ -72,7 +74,7 @@ func (this *Controller) Create(ctx *iris.Context) {
 	if err == nil {
 		err = transaction.validate()
 	}
-	status, response := this.save(err, transaction)
+	status, response := this.save(transaction, err)
 	ctx.JSON(status, response)
 }
 
@@ -83,11 +85,11 @@ func (this *Controller) Update(ctx *iris.Context) {
 		transaction.Id = int64(id)
 		err = transaction.validate()
 	}
-	status, response := this.save(err, transaction)
+	status, response := this.save(transaction, err)
 	ctx.JSON(status, response)
 }
 
-func (this *Controller) save(err error, transaction Transaction) (status int, response interface{}) {
+func (this *Controller) save(transaction Transaction, err error) (status int, response interface{}) {
 	if err == nil {
 		id := int64(0)
 		err, id = service.Save(transaction)
@@ -97,7 +99,7 @@ func (this *Controller) save(err error, transaction Transaction) (status int, re
 		}
 	}
 	if err != nil {
-		log.Println("Error saving.", err)
+		log.Println("Error in save.", err)
 		status = 400
 		response = helper.CreateErrorMap(err)
 	}

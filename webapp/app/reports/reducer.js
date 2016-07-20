@@ -5,7 +5,7 @@ export const INITIAL_STATE = {
     startDate: utils.date().subtract(3, 'months').format('YYYY-MM-DD'),
     endDate: utils.date().format('YYYY-MM-DD'),
     type: 'expense',
-    tags: ''
+    tag: ''
   },
   pie: {
     labels: [],
@@ -52,7 +52,7 @@ const MODULE_NAME = 'REPORTS';
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
 
-  case `${MODULE_NAME}_BY_TAGS_SUCCESS`: {
+  case `${MODULE_NAME}_BY_TAG_SUCCESS`: {
     const pie = Object.assign({}, INITIAL_STATE.pie);
     pie.labels = action.payload.pie.labels;
     pie.datasets[0].data = action.payload.pie.data;
@@ -61,7 +61,7 @@ export default function (state = INITIAL_STATE, action) {
     line.labels = action.payload.line.map(item => {
       return item.month;
     });
-    line.datasets[0].label = action.payload.tags;
+    line.datasets[0].label = action.payload.tag;
     line.datasets[0].data = action.payload.line.map(item => {
       return item.amount;
     });

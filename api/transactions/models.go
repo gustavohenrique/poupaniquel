@@ -20,14 +20,14 @@ type (
 
 	// Transaction represents the data should be returned in response
 	Transaction struct {
-		Id          int64
-		ParentId    int64 `json:"parentId"`
-		Type        string
-		CreatedAt   time.Time `json:"createdAt"`
-		Description string
-		Amount      float32
-		Tags        []string
-		Children    []Transaction
+		Id          int64         `json:"id"`
+		ParentId    int64         `json:"parentId"`
+		Type        string        `json:"type"`
+		CreatedAt   time.Time     `json:"createdAt"`
+		Description string        `json:"description"`
+		Amount      float32       `json:"amount"`
+		Tags        []string      `json:"tags"`
+		Children    []Transaction `json:"children"`
 	}
 )
 

@@ -10,22 +10,22 @@ function showLoadingBar () {
 }
 
 export function showReports (data) {
-  const type = `${MODULE_NAME}_BY_TAGS`;
+  const type = `${MODULE_NAME}_BY_TAG`;
   return dispatch => {
     dispatch(showLoadingBar());
     const filter = Object.assign({}, data, {
       createdAt: utils.date(data.createdAt).format('YYYY-MM-DD'),
       type: data.type === 'income' ? data.type : 'expense',
-      tags: data.tags ? data.tags.replace(', ', ',') : ''
+      tag: data.tag
     });
-    return service.getReportsByTags(filter)
+    return service.getReportsByTag(filter)
       .then(response => {
         if (response.data && response.data.length > 0) {
           const sum = response.data.reduce((pre, cur) => {
             return { amount: pre.amount + cur.amount };
           });
           const pie = {
-            labels: [filter.tags, 'Total'],
+            labels: [filter.tag, 'Total'],
             data: [sum.amount, response.data[0].total]
           };
           dispatch({
@@ -33,7 +33,7 @@ export function showReports (data) {
             payload: {
               pie: pie,
               line: response.data || {},
-              tags: filter.tags
+              tag: filter.tag
             }
           });
         }

@@ -31,7 +31,7 @@ func Js(ctx *iris.Context) {
 	ctx.SetContentType("text/javascript")
 }
 EOM
-echo "$CODE" > "$DEST_DIR/Js.go"
+printf "%s\n" "$CODE" > "$DEST_DIR/Js.go"
 
 # app.css -> Css.go
 content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/app.css)

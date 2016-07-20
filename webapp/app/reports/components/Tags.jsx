@@ -58,7 +58,7 @@ export class Tags extends React.Component {
       fail,
       handleSubmit,
       submitting,
-      fields: { startDate, endDate, type, tags }
+      fields: { startDate, endDate, type, tag }
     } = this.props;
 
     const hasData = chartType => {
@@ -70,7 +70,7 @@ export class Tags extends React.Component {
         <h2>By tag</h2>
         <Alert
             type="error"
-            showIf={fail.type === 'REPORTS_BY_TAGS_FAIL'} />
+            showIf={fail.type === 'REPORTS_BY_TAG_FAIL'} />
         <form onSubmit={handleSubmit(this.showReports.bind(this))} className="margin-t-10">
           <div className="form-group">
             <label className="form-label">From</label>
@@ -83,13 +83,13 @@ export class Tags extends React.Component {
           <div className="form-group">
             <label className="form-label">Type</label>
             <select {...type} className="form-select select-lg">
-              <option value="expenses">Expenses</option>
-              <option value="incomes">Incomes</option>
+              <option value="expense">Expense</option>
+              <option value="income">Income</option>
             </select>
           </div>
           <div className="form-group">
             <label className="form-label">Tag</label>
-            <input {...tags} type="text" placeholder="Use comma (,) as a separator. Example: car,home,it services" className="form-input input-lg" />
+            <input {...tag} type="text" placeholder="" className="form-input input-lg" />
           </div>
           <div className="form-group buttons btn-group">
             <button type="submit" className="btn btn-primary btn-lg">Show reports</button>
@@ -97,8 +97,8 @@ export class Tags extends React.Component {
         </form>
         <div>
           <div className={hasData(pie) && hasData(line) ? '' : 'hidden'}>
-            <canvas  ref={'pieChart'} height={'400'} width={'600'}></canvas>
-            <canvas className="margin-t-50" ref={'lineChart'} height={'400'} width={'600'}></canvas>
+            <canvas  ref={'pieChart'} height={'200'} width={'400'}></canvas>
+            <canvas className="margin-t-50" ref={'lineChart'} height={'100'} width={'300'}></canvas>
           </div>
         </div>
       </div>
@@ -122,5 +122,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default reduxForm({
   form: 'reportForm',
-  fields: ['startDate', 'endDate', 'type', 'tags']
+  fields: ['startDate', 'endDate', 'type', 'tag']
 }, mapStateToProps, mapDispatchToProps)(Tags);

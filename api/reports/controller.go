@@ -4,7 +4,6 @@ import (
 	"github.com/kataras/iris"
 	"log"
 	"time"
-	"strings"
 	"errors"
 	"fmt"
 )
@@ -23,7 +22,7 @@ func (this *Controller) Report(ctx *iris.Context) {
 	var result interface{}
 	status := 200
 	if err == nil {
-		err, result = service.ByTags(params)
+		err, result = service.ByTag(params)
 	}
 	if err != nil {
 		status = 400
@@ -31,18 +30,18 @@ func (this *Controller) Report(ctx *iris.Context) {
 			"code": "ReportError",
 			"message": fmt.Sprintf("%s", err),
 		}
-		log.Println("Error generating report by tags.", err)
+		log.Println("Error generating report by tag.", err)
 	}
 	ctx.JSON(status, result)
 }
 
 func getParamsFrom(ctx *iris.Context) (err error, params map[string]interface{}) {
-	list := ctx.URLParam("tags")
+	tag := ctx.URLParam("tag")
 	transactionType := ctx.URLParam("type")
 	from := ctx.URLParam("from")
 	until := ctx.URLParam("until")
-	if list == "" || from == "" || until == "" || transactionType == "" {
-		err = errors.New("The url params 'tags', 'type', 'from' and 'until' are required.")
+	if tag == "" || from == "" || until == "" || transactionType == "" {
+		err = errors.New("The url params 'tag', 'type', 'from' and 'until' are required.")
 		return err, params
 	}
 	startDate, err := time.Parse("2006-01-02", from)
@@ -51,7 +50,7 @@ func getParamsFrom(ctx *iris.Context) (err error, params map[string]interface{})
 		return err, params
 	}
 	return err, map[string]interface{} {
-		"tags": strings.Split(list, ","),
+		"tag": tag,
 		"type": transactionType,
 		"startDate": startDate,
 		"endDate": endDate,

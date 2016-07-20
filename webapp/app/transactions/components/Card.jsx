@@ -20,6 +20,7 @@ export default class Card extends React.Component {
         </div>)
       : null;
     const createdAt = utils.date(item.createdAt).format('YYYY-MM-DD');
+    const tags = item.tags ? item.tags : [];
 
     return (
       <div className="column col-xs-12 col-sm-6 col-md-3">
@@ -32,7 +33,7 @@ export default class Card extends React.Component {
             <h5 className="transaction amount">R$ {item.amount}</h5>
           </div>
           <div className="card-body">
-            {item.tags.map((tag, index) => {
+            {tags.map((tag, index) => {
               return (<span className="label" key={`tag_${item.id}_${index}`} style={{marginRight: "5px", backgroundColor: tag === "" ? "white" : "#efefef"}}>{tag}</span>);
             })}
           </div>

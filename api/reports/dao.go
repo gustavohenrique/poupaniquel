@@ -11,21 +11,16 @@ func NewDao() *Dao {
 	return &Dao{}
 }
 
-func (this *Dao) ByTags(params map[string]interface{}) (err error, result []map[string]interface{}) {
+func (this *Dao) ByTag(params map[string]interface{}) (err error, result []map[string]interface{}) {
 	db := database.Connect()
-	tags := params["tags"].([]string)
-	like := "tags LIKE '%|" + tags[0] + "|%'"
-	for i, tag := range tags {
-		if i > 0 {
-			like = like + " AND tags LIKE '%|" + tag + "|%'"
-		}
-	}
+	tag := params["tag"].(string)
+	like := "tags LIKE '%|" + tag + "|%'"
 	dateFormat := "\"%Y-%m\""
 	query := fmt.Sprintf(`SELECT ROUND(TOTAL(amount), 2) AS amount, strftime(%s, createdAt) AS date,
-		ROUND((SELECT TOTAL(amount) FROM transactions WHERE type = :type AND createdAt >= :startDate AND createdAt < :endDate), 2) AS total
+		ROUND((SELECT TOTAL(amount) FROM transactions WHERE type = :type AND createdAt >= :startDate AND createdAt <= :endDate), 2) AS total
 	  	FROM transactions
 	 	WHERE %s AND type = :type
-	   	AND createdAt >= :startDate and createdAt < :endDate
+	   	AND createdAt >= :startDate and createdAt <= :endDate
 	 	GROUP BY strftime(%s, createdAt)`, dateFormat, like, dateFormat)
 
 	rows, err := db.NamedQuery(query, params)

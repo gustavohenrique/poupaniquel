@@ -32,14 +32,14 @@ func TestMain(m *testing.M) {
     os.Exit(m.Run())
 }
 
-func TestByTags(t *testing.T) {
+func TestByTag(t *testing.T) {
 	params := map[string]interface{}{
 		"type": "expense",
 		"startDate": "2016-01-01",
 		"endDate": "2016-04-01",
-		"tags": []string{"creditcard"},
+		"tag": "creditcard",
 	}
-	err, result := dao.ByTags(params)
+	err, result := dao.ByTag(params)
 	assert.Nil(t, err)
 	assert.Equal(t, 3, len(result))
 
@@ -54,20 +54,4 @@ func TestByTags(t *testing.T) {
 	assert.Equal(t, "2016-03", result[2]["month"])
 	assert.Equal(t, float32(190), result[2]["amount"])
 	assert.Equal(t, float32(3355), result[2]["total"])
-}
-
-func TestByTagsWithTwoTags(t *testing.T) {
-	params := map[string]interface{}{
-		"type": "expense",
-		"startDate": "2016-01-01",
-		"endDate": "2016-04-01",
-		"tags": []string{"creditcard", "fun"},
-	}
-	err, result := dao.ByTags(params)
-	assert.Nil(t, err)
-	assert.Equal(t, 1, len(result))
-
-	assert.Equal(t, "2016-02", result[0]["month"])
-	assert.Equal(t, float32(800), result[0]["amount"])
-	assert.Equal(t, float32(3355), result[0]["total"])
 }
