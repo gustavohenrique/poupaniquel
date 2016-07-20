@@ -14,6 +14,16 @@ Poupaniquel should answer the questions:
 2. How much money I have today?
 3. How much money I should have in the future?
 
+## Building
+
+```
+curl https://glide.sh/get | sh
+go get github.com/gustavohenrique/poupaniquel
+cd $GOPATH/src/github.com/gustavohenrique/poupaniquel
+glide install
+go build -o poupaniquel main.go
+```
+
 ## How to contribute?
 
 First, you need to open an issue to talk about your proposed. After I agree that your idea is great for the project, you should fork this repository and send me a Pull Request.

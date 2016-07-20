@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/kataras/iris"
 	"github.com/iris-contrib/middleware/cors"
+
 	"github.com/gustavohenrique/poupaniquel/api/database"
 	"github.com/gustavohenrique/poupaniquel/api/transactions"
 	"github.com/gustavohenrique/poupaniquel/api/reports"

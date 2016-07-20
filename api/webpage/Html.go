@@ -1,7 +1,8 @@
 package webpage
 import "github.com/kataras/iris"
 func Html(ctx *iris.Context) {
-	content := `<!DOCTYPE html>
+	content := `
+		<!DOCTYPE html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
@@ -22,7 +23,8 @@ func Html(ctx *iris.Context) {
     }
   </script>
 </body>
-</html>`
+</html>
+	`
 	ctx.Text(iris.StatusOK, content)
 	ctx.SetContentType("text/html")
 }

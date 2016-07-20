@@ -1,28 +1,29 @@
 package transactions
 
 import (
-	"github.com/kataras/iris"
 	"fmt"
 	"log"
 	"encoding/json"
 	"strings"
+	"github.com/kataras/iris"
 )
 
 type Controller struct {}
 
 var service = NewService()
+var helper = NewHelper()
 
 func NewController(base string) {
-	api := &Controller{}
-	iris.Get(base + "/transactions", api.FetchAll)
-	iris.Get(base + "/transactions/:id", api.FetchOne)
-	iris.Post(base + "/transactions", api.Create)
-	iris.Put(base + "/transactions/:id", api.Update)
-	iris.Delete(base + "/transactions/:id", api.Delete)
+	controller := &Controller{}
+	iris.Get(base + "/transactions", controller.FetchAll)
+	iris.Get(base + "/transactions/:id", controller.FetchOne)
+	iris.Post(base + "/transactions", controller.Create)
+	iris.Put(base + "/transactions/:id", controller.Update)
+	iris.Delete(base + "/transactions/:id", controller.Delete)
 }
 
 func (this *Controller) FetchAll(ctx *iris.Context) {
-	params := this.getParamsFrom(ctx)
+	params := helper.GetPageParameters(ctx)
 	page := params["page"].(int)
 	err, transactions := service.FetchAll(params)
 	if len(transactions) == 0 {
@@ -67,24 +68,20 @@ func (this *Controller) Delete(ctx *iris.Context) {
 }
 
 func (this *Controller) Create(ctx *iris.Context) {
-	transaction := Transaction{}
-	requestData := strings.NewReader(string(ctx.PostBody()))
-	err := json.NewDecoder(requestData).Decode(&transaction)
+	transaction, err := this.getPostBodyFrom(ctx)
 	if err == nil {
-		err = transaction.isValid()
+		err = transaction.validate()
 	}
 	status, response := this.save(err, transaction)
 	ctx.JSON(status, response)
 }
 
 func (this *Controller) Update(ctx *iris.Context) {
-	transaction := Transaction{}
-	requestData := strings.NewReader(string(ctx.PostBody()))
-	err := json.NewDecoder(requestData).Decode(&transaction)
+	transaction, err := this.getPostBodyFrom(ctx)
 	if err == nil {
 		id, _ := ctx.ParamInt("id")
 		transaction.Id = int64(id)
-		err = transaction.isValid()
+		err = transaction.validate()
 	}
 	status, response := this.save(err, transaction)
 	ctx.JSON(status, response)
@@ -102,36 +99,16 @@ func (this *Controller) save(err error, transaction Transaction) (status int, re
 	if err != nil {
 		log.Println("Error saving.", err)
 		status = 400
-		response = this.getError(err)
+		response = helper.CreateErrorMap(err)
 	}
 	return status, response
 }
 
-func (*Controller) getError(err error) map[string]string {
-	log.Println(err)
-	return map[string]string{
-		"code": "BadRequest",
-		"message": fmt.Sprintf("%v", err),
-	}
-}
 
-func (*Controller) getParamsFrom(ctx *iris.Context) map[string]interface{} {
-	var page, perPage = 1, 1
-	page, err := ctx.URLParamInt("page")
-	if err != nil || page < 1 {
-		page = 1
-	}
-	perPage, err = ctx.URLParamInt("perPage")
-	if err != nil || perPage < 1 {
-		perPage = 1
-	}
-	sort := ctx.URLParam("sort")
-	if sort == "" {
-		sort = "id"
-	}
-	return map[string]interface{}{
-		"page": page,
-		"perPage": perPage,
-		"sort": sort,
-	}
+
+func (*Controller) getPostBodyFrom(ctx *iris.Context) (Transaction, error) {
+	transaction := Transaction{}
+	requestData := strings.NewReader(string(ctx.PostBody()))
+	err := json.NewDecoder(requestData).Decode(&transaction)
+	return transaction, err
 }
