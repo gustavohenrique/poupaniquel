@@ -31,7 +31,7 @@ type (
 	}
 )
 
-func (this *Transaction) validate() error {
+func (this *Transaction) Validate() error {
 	hasDescription := this.Description != "" && len(this.Description) > 0
 	hasType := this.Type == "expense" || this.Type == "income"
 	if hasDescription && this.Amount > 0 && hasType {

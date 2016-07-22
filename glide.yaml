@@ -10,3 +10,12 @@ import:
 - package: github.com/iris-contrib/middleware
   subpackages:
   - cors
+- package: github.com/gavv/httpexpect
+- package: github.com/smartystreets/goconvey
+  version: ^1.6.2
+  subpackages:
+  - convey
+- package: github.com/jtolds/gls
+  version: ^4.2.0
+- package: github.com/smartystreets/assertions
+  version: ^1.6.0

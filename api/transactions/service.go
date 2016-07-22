@@ -6,23 +6,31 @@ import (
 	"errors"
 )
 
+type TransactionManager interface {
+	FetchAll(map[string]interface{}) (error, []Transaction)
+	FetchOne(int) (error, Transaction)
+	Delete(int) error
+	Save(Transaction) (error, int64)
+}
+
 type Service struct {}
 
-var dao = NewDao()
+var dao *Dao
 
-func NewService() *Service {
+func NewService(d *Dao) TransactionManager {
+	dao = d
 	return &Service{}
 }
 
-func (this *Service) FetchAll(params map[string]interface{}) (err error, transactions []Transaction) {
+func (*Service) FetchAll(params map[string]interface{}) (err error, transactions []Transaction) {
 	err, list := dao.FetchAll(params)
 	if err != nil {
 		return err, transactions
 	}
-	return err, this.convert(list)
+	return err, toTransaction(list)
 }
 
-func (this *Service) FetchOne(id int) (error, Transaction) {
+func (*Service) FetchOne(id int) (error, Transaction) {
 	err, list := dao.FetchOne(map[string]interface{}{
 		"id": id,
 	})
@@ -33,7 +41,7 @@ func (this *Service) FetchOne(id int) (error, Transaction) {
 	if err != nil {
 		return err, Transaction{}
 	}
-	return err, this.convert(list)[0]
+	return err, toTransaction(list)[0]
 }
 
 func (this *Service) Delete(id int) error {
@@ -43,8 +51,8 @@ func (this *Service) Delete(id int) error {
 	return err
 }
 
-func (this *Service) Save(transaction Transaction) (error, int64) {
-	rawItem := this.rawConvert(transaction)
+func (*Service) Save(transaction Transaction) (error, int64) {
+	rawItem := toRaw(transaction)
 	rawItem.Id = transaction.Id
 	if rawItem.Id > 0 {
 		return dao.Update(rawItem)
@@ -52,7 +60,7 @@ func (this *Service) Save(transaction Transaction) (error, int64) {
 	return dao.Create(rawItem)
 }
 
-func (*Service) rawConvert(transaction Transaction) Raw {
+func toRaw(transaction Transaction) Raw {
 	tags := []string{}
 	for _, tag := range transaction.Tags {
 		tags = append(tags, "|" + strings.Trim(tag, " ") + "|")
@@ -67,7 +75,7 @@ func (*Service) rawConvert(transaction Transaction) Raw {
 	}
 }
 
-func (*Service) convert(list []Raw) (transactions []Transaction) {
+func toTransaction(list []Raw) (transactions []Transaction) {
 	if len(list) == 0 {
 		return transactions
 	}
@@ -115,7 +123,7 @@ func setChildrenForTransaction(children []Transaction, transaction Transaction) 
 	for _, child := range children {
 		if child.ParentId == transaction.Id {
 			transaction.Children = append(transaction.Children, child)
-			// remove child from list
+			// TODO: remove child from list
 		}
 	}
 	return transaction

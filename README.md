@@ -24,6 +24,10 @@ glide install
 go build -o poupaniquel main.go
 ```
 
+## API Docs
+
+Visit [http://docs.poupaniquel.apiary.io](http://docs.poupaniquel.apiary.io) or [http://localhost:7000/docs](http://localhost:7000/docs)
+
 ## How to contribute?
 
 First, you need to open an issue to talk about your proposed. After I agree that your idea is great for the project, you should fork this repository and send me a Pull Request.

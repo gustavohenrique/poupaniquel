@@ -1,10 +1,10 @@
 package database
 
 import (
-	_ "github.com/mattn/go-sqlite3"
-	"github.com/jmoiron/sqlx"
 	"log"
 	"os"
+	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 var instance *sqlx.DB

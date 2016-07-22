@@ -1,6 +1,6 @@
 package webpage
 import "github.com/kataras/iris"
-func Html(ctx *iris.Context) {
+func ServeHtml(ctx *iris.Context) {
 	content := `
 		<!DOCTYPE html>
 <head>

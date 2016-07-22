@@ -1,5 +1,5 @@
-hash: 2e07bc26457ea6dfd76816521e7b79cc3c68debbdf0b6c6c0f43a05302359e2a
-updated: 2016-07-19T13:22:39.042765283-03:00
+hash: ac72b1c78b4577667e9e53f9c1b0c100241efa973f4869e6d8647f2384724461
+updated: 2016-07-20T16:26:21.81293733-03:00
 imports:
 - name: github.com/ajg/form
   version: 7ff89c75808766205bfa4411abb436c98c33eb5e
@@ -10,7 +10,7 @@ imports:
   - parser
   - lexer
 - name: github.com/davecgh/go-spew
-  version: 5215b55f46b2b919f50a1df0eaa5886afe4e3b3d
+  version: 2df174808ee097f90d259e432cc04442cf60be21
   subpackages:
   - spew
 - name: github.com/eknkc/amber
@@ -44,31 +44,14 @@ imports:
   version: 50d4dbd4eb0e84778abe37cefef140271d96fade
 - name: github.com/imkira/go-interpol
   version: b9781c93ae51c8b4fc3af1b1426909721af0a624
-- name: github.com/iris-contrib/color
-  version: 62c14c567492326ac5a952fb13e69533d2c6a735
 - name: github.com/iris-contrib/errors
   version: 9d4599565f75fd376a8e4ae5ccc98fc078b93b69
 - name: github.com/iris-contrib/formBinder
   version: 32009bbc76eda475a6d1eb24787d1fdcdaf80e71
-- name: github.com/iris-contrib/logger
-  version: 6a08b11d1faefa8ce79ed6d6efec9d2e05cbc549
 - name: github.com/iris-contrib/middleware
   version: ec90193d8e82737647049cb870ebc6381c6ad087
   subpackages:
   - cors
-- name: github.com/iris-contrib/response
-  version: 5b9aca32181fe17e25561f55a85639849941565a
-  subpackages:
-  - data
-  - json
-  - jsonp
-  - markdown
-  - text
-  - xml
-- name: github.com/iris-contrib/template
-  version: 7f56cb15ccc843e34c1d17327c276f0f90ad6f5c
-  subpackages:
-  - html
 - name: github.com/iris-contrib/websocket
   version: a2c30084384c39ce6595169df8b93d7298ac04cd
 - name: github.com/jmoiron/sqlx
@@ -77,12 +60,13 @@ imports:
   - reflectx
 - name: github.com/Joker/jade
   version: db4d7e4f68708c5020c392b380e3565df2132840
+- name: github.com/jtolds/gls
+  version: 8ddce2a84170772b95dd5d576c48d517b22cac63
 - name: github.com/kataras/iris
   version: 13a612bfa1091c90b1793547e1350dffaf224215
   subpackages:
-  - utils
-  - context
   - config
+  - context
   - logger
   - render/rest
   - render/template
@@ -90,6 +74,7 @@ imports:
   - sessions/providers/memory
   - sessions/providers/redis
   - sessions/store
+  - utils
   - websocket
   - render/template/engine/amber
   - render/template/engine/handlebars
@@ -125,20 +110,22 @@ imports:
 - name: github.com/russross/blackfriday
   version: 93622da34e54fb6529bfb7c57e710f37a8d9cbd8
 - name: github.com/sergi/go-diff
-  version: ec7fdbb58eb3e300c8595ad5ac74a5aa50019cc7
+  version: 97b2266dfe4bd4ea1b81a463322f04f8b724801e
   subpackages:
   - diffmatchpatch
 - name: github.com/shurcooL/sanitized_anchor_name
   version: 10ef21a441db47d8b13ebcc5fd2310f636973c77
-- name: github.com/stretchr/objx
-  version: cbeaeb16a013161a98496fad62933b1d21786672
+- name: github.com/smartystreets/assertions
+  version: e9a2f6771d97c709b2f7609fdf89ebde8b64c926
+- name: github.com/smartystreets/goconvey
+  version: d4c757aa9afd1e2fc1832aaab209b5794eb336e1
+  subpackages:
+  - convey
 - name: github.com/stretchr/testify
   version: f390dcf405f7b83c997eac1b06768bb9f44dec18
   subpackages:
   - assert
   - require
-  - http
-  - mock
 - name: github.com/valyala/bytebufferpool
   version: 8ebd0474e5a2f0a5c7a74ad2bf421a1d1a90264f
 - name: github.com/valyala/fasthttp

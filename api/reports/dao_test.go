@@ -1,9 +1,11 @@
 package reports_test
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"os"
+
+	"github.com/stretchr/testify/assert"
+
 	"github.com/gustavohenrique/poupaniquel/api/database"
 	"github.com/gustavohenrique/poupaniquel/api/reports"
 )

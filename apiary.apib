@@ -5,6 +5,92 @@ HOST: http://poupanique.herokuapp.com
 
 ## Transactions [/transactions]
 
+### Fetch all [GET /transactions{?page,perPage,sort}]
+
++ Parameters
+    + page: 1 (number) - The page number
+    + perPage: 10 (number) - Items per page
+    + sort: id (string) - Sort by field
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Link: </transactions?page=2>; rel="next"
+
+    + Body
+
+            [
+                {
+                    "id": "4BA84555-57A0-4B06-9E24-0D6F5EB183BC",
+                    "createdAt": "2016-07-11",
+                    "type": "expense",
+                    "description": "Mastercard"
+                    "amount": 1590.99,
+                    "tags": ["creditcard"]
+                    "children": [
+                        {
+                            "id": "78866F6D-9A22-4790-BDD7-69FB8FCAF10D",
+                            "createdAt": "2016-07-10",
+                            "type": "expense",
+                            "description": "Funny weekend",
+                            "amount": 90.99,
+                            "tags": ["party", "sex"],
+                            "children": []
+                        },
+                        {
+                            "id": "CB118755-2FB8-4FB4-8206-B12138B3ACF2",
+                            "createdAt": "2016-07-05",
+                            "type": "expense",
+                            "description": "Crazy trip",
+                            "amount": 1500.00,
+                            "tags": ["trip", "brazil"],
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+
+### Fetch one [GET /transactions/{id}]
+
++ Parameters
+    + id: 1 (required, number) - The transaction ID
+
++ Request (application/json)
+
++ Response 200 (application/json)
+
+            {
+                "id": "4BA84555-57A0-4B06-9E24-0D6F5EB183BC",
+                "createdAt": "2016-07-11",
+                "type": "expense",
+                "description": "Mastercard"
+                "amount": 1590.99,
+                "tags": ["creditcard"]
+                "children": [
+                    {
+                        "id": "78866F6D-9A22-4790-BDD7-69FB8FCAF10D",
+                        "createdAt": "2016-07-10",
+                        "type": "expense",
+                        "description": "Funny weekend",
+                        "amount": 90.99,
+                        "tags": ["party", "sex"],
+                        "children": []
+                    },
+                    {
+                        "id": "CB118755-2FB8-4FB4-8206-B12138B3ACF2",
+                        "createdAt": "2016-07-05",
+                        "type": "expense",
+                        "description": "Crazy trip",
+                        "amount": 1500.00,
+                        "tags": ["trip", "brazil"],
+                        "children": []
+                    }
+                ]
+            }
+
 ### Create [POST /transactions]
 
 + Request (application/json)
@@ -66,107 +152,9 @@ HOST: http://poupanique.herokuapp.com
                 ]
             }
 
-### Fetch all [GET /transactions{?page,perPage,sort}]
-
-+ Parameters
-    + page: 1 (number) - The page number
-    + perPage: 10 (number) - Items per page
-    + sort: id (string) - Sort by field
-
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer token
-
-+ Response 200 (application/json)
-
-    + Headers
-
-            Link: </transactions?page=2>; rel="next"
-
-    + Body
-
-            [
-                {
-                    "id": "4BA84555-57A0-4B06-9E24-0D6F5EB183BC",
-                    "createdAt": "2016-07-11",
-                    "type": "expense",
-                    "description": "Mastercard"
-                    "amount": 1590.99,
-                    "tags": ["creditcard"]
-                    "children": [
-                        {
-                            "id": "78866F6D-9A22-4790-BDD7-69FB8FCAF10D",
-                            "createdAt": "2016-07-10",
-                            "type": "expense",
-                            "description": "Funny weekend",
-                            "amount": 90.99,
-                            "tags": ["party", "sex"],
-                            "children": []
-                        },
-                        {
-                            "id": "CB118755-2FB8-4FB4-8206-B12138B3ACF2",
-                            "createdAt": "2016-07-05",
-                            "type": "expense",
-                            "description": "Crazy trip",
-                            "amount": 1500.00,
-                            "tags": ["trip", "brazil"],
-                            "children": []
-                        }
-                    ]
-                }
-            ]
-
-### Fetch one [GET /transactions/{id}]
-
-+ Parameters
-    + id: 1 (required, number) - The transaction ID
-
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer token
-
-+ Response 200 (application/json)
-
-            {
-                "id": "4BA84555-57A0-4B06-9E24-0D6F5EB183BC",
-                "createdAt": "2016-07-11",
-                "type": "expense",
-                "description": "Mastercard"
-                "amount": 1590.99,
-                "tags": ["creditcard"]
-                "children": [
-                    {
-                        "id": "78866F6D-9A22-4790-BDD7-69FB8FCAF10D",
-                        "createdAt": "2016-07-10",
-                        "type": "expense",
-                        "description": "Funny weekend",
-                        "amount": 90.99,
-                        "tags": ["party", "sex"],
-                        "children": []
-                    },
-                    {
-                        "id": "CB118755-2FB8-4FB4-8206-B12138B3ACF2",
-                        "createdAt": "2016-07-05",
-                        "type": "expense",
-                        "description": "Crazy trip",
-                        "amount": 1500.00,
-                        "tags": ["trip", "brazil"],
-                        "children": []
-                    }
-                ]
-            }
-
 ### Update [PUT]
 
 + Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer token
 
     + Body
 
@@ -232,12 +220,6 @@ HOST: http://poupanique.herokuapp.com
 
 ### Delete [DELETE]
 
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer token
-
 + Response 204 (application/json)
 
 ## Reports [/reports]
@@ -249,26 +231,19 @@ HOST: http://poupanique.herokuapp.com
     + endDate: 2016-04-01 - The end date of the transaction
     + tag: party - Tag name
 
-+ Request (application/json)
-
-    + Headers
-
-            Authorization: Bearer token
-
 + Response 200 (application/json)
 
     + Body
 
-            {
-                "pie": {
-                    "party": 90.99, 
-                    "expenses": 1500
+            [
+                {
+                    "month": "2016-01",
+                    "amount": 90.99, 
+                    "total": 1500
                 },
-                "line": [
-                    {
-                        "2016-02": 230.20,
-                        "2016-03": 120.50,
-                        "2016-04": 85.92
-                    }
-                ]
-            }
+                {
+                    "month": "2016-02",
+                    "amount": 230.20, 
+                    "total": 1500
+                }
+            ]

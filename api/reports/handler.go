@@ -1,23 +1,24 @@
 package reports
 
 import (
-	"github.com/kataras/iris"
 	"log"
 	"time"
 	"errors"
 	"fmt"
+
+	"github.com/kataras/iris"
 )
 
-type Controller struct {}
+type Handler struct {}
 
-var service = NewService()
+var service Reporter
 
-func NewController(base string) {
-	api := &Controller{}
-	iris.Get(base + "/reports", api.Report)
+func NewHandler(s Reporter) *Handler {
+	service = s
+	return &Handler{}
 }
 
-func (this *Controller) Report(ctx *iris.Context) {
+func (*Handler) Report(ctx *iris.Context) {
 	err, params := getParamsFrom(ctx)
 	var result interface{}
 	status := 200

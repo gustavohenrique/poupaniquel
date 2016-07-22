@@ -8,7 +8,7 @@ content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/index.html)
 read -r -d '' CODE << EOM
 package webpage
 import "github.com/kataras/iris"
-func Html(ctx *iris.Context) {
+func ServeHtml(ctx *iris.Context) {
 	content := \`
 		$content
 	\`
@@ -16,14 +16,14 @@ func Html(ctx *iris.Context) {
 	ctx.SetContentType("text/html")
 }
 EOM
-echo "$CODE" > "$DEST_DIR/Html.go"
+echo "$CODE" > "$DEST_DIR/html.go"
 
 # app.js -> Js.go
 content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/app.js)
 read -r -d '' CODE << EOM
 package webpage
 import "github.com/kataras/iris"
-func Js(ctx *iris.Context) {
+func ServeJs(ctx *iris.Context) {
 	content := \`
 		$content
 	\`
@@ -31,14 +31,14 @@ func Js(ctx *iris.Context) {
 	ctx.SetContentType("text/javascript")
 }
 EOM
-printf "%s\n" "$CODE" > "$DEST_DIR/Js.go"
+printf "%s\n" "$CODE" > "$DEST_DIR/js.go"
 
 # app.css -> Css.go
 content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/app.css)
 read -r -d '' CODE << EOM
 package webpage
 import "github.com/kataras/iris"
-func Css(ctx *iris.Context) {
+func ServeCss(ctx *iris.Context) {
 	content := \`
 		$content
 	\`
@@ -46,4 +46,4 @@ func Css(ctx *iris.Context) {
 	ctx.SetContentType("text/css")
 }
 EOM
-printf "%s\n" "$CODE" > "$DEST_DIR/Css.go"
+printf "%s\n" "$CODE" > "$DEST_DIR/css.go"

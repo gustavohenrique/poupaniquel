@@ -3,6 +3,9 @@ $(eval $(RUN_ARGS):;@:)
 test:
 	go test -v $(RUN_ARGS)
 
+tests:
+	go test -v ./api/...
+
 run:
 	go run main.go
 
