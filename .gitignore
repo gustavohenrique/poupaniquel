@@ -17,3 +17,5 @@ golang.org
 vendor
 *.db
 main
+poupaniquel-windows-4.0-amd64.exe
+poupaniquel-linux-amd64

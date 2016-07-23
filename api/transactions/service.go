@@ -69,7 +69,7 @@ func toRaw(transaction Transaction) Raw {
 		CreatedAt: transaction.CreatedAt,
 		Type: transaction.Type,
 		Description: transaction.Description,
-		Amount: float32(transaction.Amount),
+		Amount: float64(transaction.Amount),
 		Tags: strings.Join(tags, ","),
 		ParentId: int64(transaction.ParentId),
 	}

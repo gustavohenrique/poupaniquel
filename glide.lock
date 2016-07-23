@@ -1,5 +1,5 @@
-hash: ac72b1c78b4577667e9e53f9c1b0c100241efa973f4869e6d8647f2384724461
-updated: 2016-07-20T16:26:21.81293733-03:00
+hash: 02045c6e3fa89ec17f6bedd492d9689ff1e022301ae6ffccea8618a9b87c7c13
+updated: 2016-07-22T22:16:24.19782166-03:00
 imports:
 - name: github.com/ajg/form
   version: 7ff89c75808766205bfa4411abb436c98c33eb5e
@@ -103,6 +103,8 @@ imports:
   version: 9dc199233bf72cc1aad9b61f73daf2f0075b9ee4
 - name: github.com/moul/http2curl
   version: b1479103caacaa39319f75e7f57fc545287fca0d
+- name: github.com/parnurzeal/gorequest
+  version: b64673b971a1742b8ba91f228f1c029632d4b686
 - name: github.com/pmezard/go-difflib
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:

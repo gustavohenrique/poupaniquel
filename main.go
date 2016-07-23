@@ -7,6 +7,7 @@ import (
 	"github.com/gustavohenrique/poupaniquel/api/webpage"
 	"github.com/gustavohenrique/poupaniquel/api/transactions"
 	"github.com/gustavohenrique/poupaniquel/api/reports"
+	"github.com/gustavohenrique/poupaniquel/api/importers/nubank"
 )
 
 func main() {
@@ -16,14 +17,9 @@ func main() {
 	server := api.NewServer()
 	
 	webpage.New(server)
-	transactions.New(server, map[string]interface{}{
-		"baseUrl": baseUrl,
-		"service": transactions.NewService(transactions.NewDao()),
-	})
-	reports.New(server, map[string]interface{}{
-		"baseUrl": baseUrl,
-		"service": reports.NewService(reports.NewDao()),
-	})
+	transactions.New(server, params(baseUrl, transactions.NewService(transactions.NewDao())))
+	reports.New(server, params(baseUrl, reports.NewService(reports.NewDao())))
+	nubank.New(server, params(baseUrl, nubank.NewService(nubank.Origin)))
 
 	banner := `
  ۜ\(סּںסּَ' )/ۜ
@@ -33,4 +29,9 @@ Poupaniquel API v0.0.1 Iris v` + iris.Version
 	server.Listen(":7000")
 }
 
-
+func params(baseUrl string, service interface{}) map[string]interface{} {
+	return map[string]interface{}{
+		"baseUrl": baseUrl,
+		"service": service,
+	}
+}

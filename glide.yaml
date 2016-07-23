@@ -19,3 +19,5 @@ import:
   version: ^4.2.0
 - package: github.com/smartystreets/assertions
   version: ^1.6.0
+- package: github.com/parnurzeal/gorequest
+  version: ^0.2.13

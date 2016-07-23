@@ -113,7 +113,7 @@ func TestCreate(t *testing.T) {
 		CreatedAt: time.Now(),
 		Type: "expense",
 		Description: "my first transaction",
-		Amount: float32(50),
+		Amount: float64(50),
 		Tags: "|t1|,|t2|",
 		ParentId: 0,
 	}
@@ -128,7 +128,7 @@ func TestUpdate(t *testing.T) {
 		CreatedAt: time.Now(),
 		Type: "expense",
 		Description: "my first transaction",
-		Amount: float32(50),
+		Amount: float64(50),
 		Tags: "|t1|,|t2|",
 		ParentId: 0,
 	}

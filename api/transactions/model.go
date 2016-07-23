@@ -12,7 +12,7 @@ type (
 		Type            string
 		CreatedAt       time.Time `db:"createdAt"`
 		Description     string
-		Amount          float32
+		Amount          float64
 		Tags            string
 		ParentId        int64 `db:"parentId"`
 		RecursiveNumber int64 `db:"RecursiveCallNumber"`
@@ -21,12 +21,12 @@ type (
 	// Transaction represents the data should be returned in response
 	Transaction struct {
 		Id          int64         `json:"id"`
-		ParentId    int64         `json:"parentId"`
 		Type        string        `json:"type"`
 		CreatedAt   time.Time     `json:"createdAt"`
 		Description string        `json:"description"`
-		Amount      float32       `json:"amount"`
+		Amount      float64       `json:"amount"`
 		Tags        []string      `json:"tags"`
+		ParentId    int64         `json:"parentId"`
 		Children    []Transaction `json:"children"`
 	}
 )
