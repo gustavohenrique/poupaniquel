@@ -94,8 +94,8 @@ func TestFetchAllUsingSortField(t *testing.T) {
 	assert.Nil(t, err)
 
 	first := list[0]
-	assert.Equal(t, int64(9), first.Id)
-	assert.Equal(t, "Clothes", first.Description)
+	assert.Equal(t, int64(6), first.Id)
+	assert.Equal(t, "Beans", first.Description)
 }
 
 func TestFetchOne(t *testing.T) {
@@ -111,6 +111,7 @@ func TestFetchOne(t *testing.T) {
 func TestCreate(t *testing.T) {
 	raw := transactions.Raw{
 		CreatedAt: time.Now(),
+		DueDate: time.Now(),
 		Type: "expense",
 		Description: "my first transaction",
 		Amount: float64(50),
@@ -126,6 +127,7 @@ func TestUpdate(t *testing.T) {
 	raw := transactions.Raw{
 		Id: 1,
 		CreatedAt: time.Now(),
+		DueDate: time.Now(),
 		Type: "expense",
 		Description: "my first transaction",
 		Amount: float64(50),

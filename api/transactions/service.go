@@ -67,6 +67,7 @@ func toRaw(transaction Transaction) Raw {
 	}
 	return Raw{
 		CreatedAt: transaction.CreatedAt,
+		DueDate: transaction.DueDate,
 		Type: transaction.Type,
 		Description: transaction.Description,
 		Amount: float64(transaction.Amount),
@@ -90,6 +91,7 @@ func toTransaction(list []Raw) (transactions []Transaction) {
 			Id: rawItem.Id,
 			ParentId: rawItem.ParentId,
 			CreatedAt: rawItem.CreatedAt,
+			DueDate: rawItem.DueDate,
 			Type: rawItem.Type,
 			Description: rawItem.Description,
 			Amount: rawItem.Amount,

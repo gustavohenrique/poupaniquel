@@ -2,7 +2,7 @@ import * as utils from '../utils';
 
 export const INITIAL_STATE = {
   filter: {
-    startDate: utils.date().subtract(3, 'months').format('YYYY-MM-DD'),
+    startDate: utils.date().subtract(12, 'months').format('YYYY-MM-DD'),
     endDate: utils.date().format('YYYY-MM-DD'),
     type: 'expense',
     tag: ''
@@ -26,7 +26,7 @@ export const INITIAL_STATE = {
     datasets: [{
       label: '',
       data: [],
-      fill: false,
+      fill: true,
       lineTension: 0.1,
       backgroundColor: 'rgba(75,192,192,0.4)',
       borderColor: 'rgba(75,192,192,1)',

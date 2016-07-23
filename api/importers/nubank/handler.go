@@ -35,6 +35,7 @@ func (*Handler) ImportData(ctx *iris.Context) {
 		})
 		return
 	}
+	log.Println("Authenticated in Nubank.")
 
 	err, bills := service.GetBillsSummary(auth["url"], auth["token"])
 	if err != nil {
@@ -44,6 +45,7 @@ func (*Handler) ImportData(ctx *iris.Context) {
 		})
 		return
 	}
+	log.Printf("Got %d bills from Nubank.", len(bills))
 
 	transactionService := transactions.NewService(transactions.NewDao())
 
@@ -56,26 +58,29 @@ func (*Handler) ImportData(ctx *iris.Context) {
 			})
 			return
 		}
+		log.Printf("Got %d items from bill id = %s", len(items), bill["id"])
+
 		dueDate, _ := time.Parse("2006-01-02", bill["dueDate"].(string))
 		parent := transactions.Transaction{
 			Description: "Nubank",
 			Amount: bill["paid"].(float64),
-			CreatedAt: dueDate,
+			DueDate: dueDate,
 			Type: "expense",
-			Tags: []string{"nubank,creditcard"},
+			Tags: []string{"|nubank|,|creditcard|"},
 		}
 		err, parentId := transactionService.Save(parent)
 		if err != nil {
 			log.Println("Failed trying to save a transaction.", err)
 			continue
 		}
+		log.Printf("Transaction #%d was saved.", parentId)
 
 		for _, item := range items {
 			date, _ := time.Parse("2006-01-02", item["date"].(string))
 			children := transactions.Transaction{
 				Description: item["title"].(string),
 				Amount: item["amount"].(float64),
-				CreatedAt: date,
+				DueDate: date,
 				Type: "expense",
 				ParentId: parentId,
 			}
@@ -84,7 +89,10 @@ func (*Handler) ImportData(ctx *iris.Context) {
 				continue
 			}
 		}
+		log.Printf("Saved %d children for #%d\n\n", len(items), parentId)
 	}
+
+	log.Println("Nubank import is finished.")
 	
 	ctx.JSON(200, "")
 }

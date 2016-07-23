@@ -19,7 +19,7 @@ export default class Card extends React.Component {
           <i className="fa fa-th" style={{fontSize: "2em"}}></i>
         </div>)
       : null;
-    const createdAt = utils.date(item.createdAt).format('YYYY-MM-DD');
+    const dueDate = utils.date(item.dueDate).format('YYYY-MM-DD');
     const tags = item.tags ? item.tags : [];
 
     return (
@@ -27,7 +27,7 @@ export default class Card extends React.Component {
         <div onClick={this.edit.bind(this, item)} className="card material" >
           <div className="card-header">
             <div className="card-meta">
-              {createdAt}
+              {dueDate}
             </div>
             <h4 className="card-title">{item.description}</h4>
             <h5 className="transaction amount">R$ {item.amount}</h5>

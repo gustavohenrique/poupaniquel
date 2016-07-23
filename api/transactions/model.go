@@ -11,6 +11,7 @@ type (
 		Id              int64
 		Type            string
 		CreatedAt       time.Time `db:"createdAt"`
+		DueDate         time.Time `db:"dueDate"`
 		Description     string
 		Amount          float64
 		Tags            string
@@ -23,6 +24,7 @@ type (
 		Id          int64         `json:"id"`
 		Type        string        `json:"type"`
 		CreatedAt   time.Time     `json:"createdAt"`
+		DueDate     time.Time     `json:"dueDate"`
 		Description string        `json:"description"`
 		Amount      float64       `json:"amount"`
 		Tags        []string      `json:"tags"`

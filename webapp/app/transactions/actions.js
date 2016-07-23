@@ -123,7 +123,7 @@ export function save (data, parent = null) {
     dispatch(showLoadingBar());
     const parentId = parent && parent.id > 0 ? parent.id : data.parentId;
     const item = Object.assign({}, data, {
-      createdAt: utils.date(data.createdAt, utils.date.ISO_8601),
+      dueDate: utils.date(data.dueDate, utils.date.ISO_8601),
       amount: parseFloat(data.amount),
       tags: data.tags && ! data.tags.push ? data.tags.split(',') : data.tags,
       parentId: parentId
@@ -133,7 +133,7 @@ export function save (data, parent = null) {
         const transaction = parent ? parent : item;
         const payload = data.id > 0 ? Object.assign({}, transaction, {
           id: response.data.id,
-          createdAt: utils.date(transaction.createdAt).format('YYYY-MM-DD')
+          dueDate: utils.date(transaction.dueDate).format('YYYY-MM-DD')
         }) : null;
         dispatch({
           type: `${type}_SUCCESS`,

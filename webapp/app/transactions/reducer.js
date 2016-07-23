@@ -9,9 +9,9 @@ export const INITIAL_STATE = {
       value: '-id'
     }, {
       text: 'Date',
-      value: '-createdAt'
+      value: '-dueDate'
     }],
-    selected: '-createdAt'
+    selected: '-dueDate'
   },
   pagination: {
     page: 1,
@@ -22,7 +22,7 @@ export const INITIAL_STATE = {
   },
   selected: {
     id: 0,
-    createdAt: utils.date().format('YYYY-MM-DD'),
+    dueDate: utils.date().format('YYYY-MM-DD'),
     description: '',
     amount: 0.00,
     type: 'expense',
@@ -51,7 +51,7 @@ export default function (state = INITIAL_STATE, action) {
       selected: action.payload,
       lastInsertedId: 0
     });
-    newState.selected.createdAt = utils.date(newState.selected.createdAt).format('YYYY-MM-DD');
+    newState.selected.dueDate = utils.date(newState.selected.dueDate).format('YYYY-MM-DD');
     return newState;
   }
 
@@ -76,7 +76,7 @@ export default function (state = INITIAL_STATE, action) {
   case `${MODULE_NAME}_SET_SELECTED`: {
     let newState = Object.assign({}, state);
     newState.selected = action.payload ? action.payload : INITIAL_STATE.selected;
-    newState.selected.createdAt = utils.date(newState.selected.createdAt).format('YYYY-MM-DD');
+    newState.selected.dueDate = utils.date(newState.selected.dueDate).format('YYYY-MM-DD');
     return newState;
   }
 

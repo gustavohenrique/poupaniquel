@@ -18,7 +18,7 @@ export class Form extends React.Component {
       cancel,
       handleSubmit,
       submitting,
-      fields: { id, description, amount, createdAt, tags, type }
+      fields: { id, description, amount, dueDate, tags, type }
     } = this.props;
 
     return (
@@ -34,7 +34,7 @@ export class Form extends React.Component {
           <input {...id} type="hidden" />
           <div className="form-group">
               <label className="form-label">Date</label>
-              <input {...createdAt} type="date" maxlength="10" className="form-input input-lg" />
+              <input {...dueDate} type="date" maxlength="10" className="form-input input-lg" />
           </div>
           <div className="form-group">
             <label className="form-label">Type</label>
@@ -89,6 +89,6 @@ const validate = values => {
 
 export default reduxForm({
   form: 'transactionForm',
-  fields: ['id', 'createdAt', 'description', 'amount', 'tags', 'type'],
+  fields: ['id', 'dueDate', 'description', 'amount', 'tags', 'type'],
   validate
 }, mapStateToProps)(Form);

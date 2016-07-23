@@ -4,7 +4,6 @@ import (
 	"log"
 	"time"
 	"errors"
-	"fmt"
 
 	"github.com/kataras/iris"
 )
@@ -20,20 +19,25 @@ func NewHandler(s Reporter) *Handler {
 
 func (*Handler) Report(ctx *iris.Context) {
 	err, params := getParamsFrom(ctx)
-	var result interface{}
-	status := 200
-	if err == nil {
-		err, result = service.ByTag(params)
-	}
 	if err != nil {
-		status = 400
-		result = map[string]interface{}{
-			"code": "ReportError",
-			"message": fmt.Sprintf("%s", err),
-		}
-		log.Println("Error generating report by tag.", err)
+		log.Println("Error getting query data to generate report.", err)
+		ctx.JSON(409, map[string]interface{}{
+			"code": "InsuficientParametersError",
+			"message": err,
+		})
+		return
 	}
-	ctx.JSON(status, result)
+
+	err, report := service.ByTag(params)
+	if err != nil {
+		log.Println("Error generating report by tag.", err)
+		ctx.JSON(400, map[string]interface{}{
+			"code": "ReportError",
+			"message": err,
+		})
+		return
+	}
+	ctx.JSON(200, report)
 }
 
 func getParamsFrom(ctx *iris.Context) (err error, params map[string]interface{}) {

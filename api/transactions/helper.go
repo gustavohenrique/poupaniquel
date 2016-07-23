@@ -33,6 +33,7 @@ func (*Helper) GetPageParameters(ctx *iris.Context) map[string]interface{} {
 	if sort == "" {
 		sort = "id"
 	}
+
 	return map[string]interface{}{
 		"page": page,
 		"perPage": perPage,

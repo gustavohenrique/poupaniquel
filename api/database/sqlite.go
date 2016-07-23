@@ -29,6 +29,7 @@ func Create() *sqlx.DB {
 	transactions := `create table if not exists transactions (
 		id integer primary key autoincrement,
 		createdAt date not null default CURRENT_DATE,
+		dueDate date not null default CURRENT_DATE,
 		type text not null default "expense",
 		description text not null,
 		amount numeric not null default 0,

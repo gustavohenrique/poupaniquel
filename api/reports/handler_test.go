@@ -23,7 +23,7 @@ func TestReportsSpec(t *testing.T) {
 		
 		Convey("Should returns an error if no URL params was sent", func() {
 			resp := e.GET("/reports").Expect()
-			So(resp.Raw().StatusCode, ShouldEqual, 400)
+			So(resp.Raw().StatusCode, ShouldEqual, 409)
 
 			raw := resp.JSON().Object().Raw()
 			So(raw, ShouldContainKey, "code")

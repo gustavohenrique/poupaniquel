@@ -33,11 +33,11 @@ func (this *Dao) FetchAll(params map[string]interface{}) (err error, list []Raw)
 	db := database.Connect()
 	query := fmt.Sprintf(`WITH CTE AS (
 		SELECT *, 1 RecursiveCallNumber FROM transactions WHERE id
-			IN (SELECT id FROM transactions WHERE parentId IS NULL OR parentId = 0 LIMIT %d OFFSET %d)
+			IN (SELECT id FROM transactions WHERE parentId IS NULL OR parentId=0 ORDER BY %s %s LIMIT %d OFFSET %d)
 		UNION ALL
 		SELECT  t.*, RecursiveCallNumber+1 RecursiveCallNumber FROM transactions t
 		INNER JOIN CTE ON t.parentId=CTE.id)
-		SELECT * FROM CTE ORDER BY RecursiveCallNumber, %s %s`, perPage, offset, sort, ordering)
+		SELECT * FROM CTE ORDER BY %s %s, RecursiveCallNumber`, sort, ordering, perPage, offset, sort, ordering)
 
 	err = db.Select(&list, query)
 	return err, list
@@ -75,8 +75,8 @@ func (this *Dao) Delete(params map[string]interface{}) error {
 func (this *Dao) Create(raw Raw) (error, int64) {
 	db := database.Connect()
 	result, err := db.NamedExec(`
-		INSERT INTO transactions (type, createdAt, description, amount, tags, parentId)
-		VALUES (:type, :createdAt, :description, :amount, :tags, :parentId)`, raw)
+		INSERT INTO transactions (type, dueDate, description, amount, tags, parentId)
+		VALUES (:type, :dueDate, :description, :amount, :tags, :parentId)`, raw)
 	id := int64(0)
 	if err != nil {
 		return err, id
@@ -88,7 +88,7 @@ func (this *Dao) Create(raw Raw) (error, int64) {
 func (this *Dao) Update(raw Raw) (error, int64) {
 	db := database.Connect()
 	_, err := db.NamedExec(`
-		UPDATE transactions SET type=:type, createdAt=:createdAt, description=:description, amount=:amount, tags=:tags, parentId=:parentId
+		UPDATE transactions SET type=:type, dueDate=:dueDate, description=:description, amount=:amount, tags=:tags
 		WHERE id=:id`, raw)
 	return err, raw.Id
 }
