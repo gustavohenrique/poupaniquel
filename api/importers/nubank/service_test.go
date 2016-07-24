@@ -4,8 +4,6 @@ import (
 	"testing"
 	"net/http"
 	"net/http/httptest"
-	// "io/ioutil"
-	// "fmt"
 
 	"github.com/stretchr/testify/assert"
 
@@ -879,4 +877,120 @@ func TestGetBillItems(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.Equal(t, 11, len(items))
+}
+
+func TestGetTransactionDetails(t *testing.T) {
+	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != "GET" {
+			t.Errorf("Expected method %q; got %q", "GET", r.Method)
+		}
+		if r.Header == nil {
+			t.Errorf("Expected non-nil request Header")
+		}
+
+		defer r.Body.Close()
+		
+		w.Header().Set("Allow", "GET, POST, PUT, OPTIONS")
+		response := `{
+		    "transaction": {
+		        "_links": {
+		            "categories": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/category"
+		            },
+		            "category": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/category"
+		            },
+		            "chargeback": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/chargebacks"
+		            },
+		            "chargeback_reasons": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/chargebacks/reasons"
+		            },
+		            "chargeback_reasons_v4": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/chargebacks/reasons/v4"
+		            },
+		            "create_tag": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/tags"
+		            },
+		            "merchant": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/merchant"
+		            },
+		            "notify_geo": {
+		                "href": "https://prod-s0-geo.nubank.com.br/api/waypoints/transaction/578e8371-ba8d-435d-81d1-16b40fafe36d"
+		            },
+		            "self": {
+		                "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d"
+		            }
+		        },
+		        "account": "54c95e6b-f1d1-4af1-b8dd-2580c541bd92",
+		        "amount": 5058,
+		        "capture_mode": {
+		            "entry_mode": "chip",
+		            "pin_mode": "accepted"
+		        },
+		        "card": "54c95e6b-cc80-4ee2-8494-531b7cfe87e9",
+		        "chargebacks": [],
+		        "charges": 1,
+		        "charges_list": [
+		            {
+		                "account_id": "54c95e6b-f1d1-4af1-b8dd-2580c541bd92",
+		                "amount": 5058,
+		                "extras": [],
+		                "id": "5790b059-12b8-4b7b-a639-5494e7c03e61",
+		                "index": 0,
+		                "post_date": "2016-07-20",
+		                "precise_amount": "50.58",
+		                "status": "open",
+		                "transaction_id": "578e8371-ba8d-435d-81d1-16b40fafe36d"
+		            }
+		        ],
+		        "country": "BRA",
+		        "event_type": "transaction_card_present",
+		        "id": "578e8371-ba8d-435d-81d1-16b40fafe36d",
+		        "mcc": "sa\u00fade",
+		        "mcg": "21",
+		        "merchant_name": "Drogarias Pacheco",
+		        "original_merchant_name": "DROGARIAS PACHECO",
+		        "postcode": "22631020",
+		        "precise_amount": "50.58",
+		        "pulled_at": "2016-07-19T19:45:53.07Z",
+		        "pushed_at": "2016-07-19T19:45:52.737Z",
+		        "source": "upfront_national",
+		        "status": "settled",
+		        "tags": [
+		            {
+		                "_links": {
+		                    "remove": {
+		                        "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/tags/5793c137-684a-4a25-807c-06b74d675325"
+		                    }
+		                },
+		                "description": "farmacia"
+		            },
+		            {
+		                "_links": {
+		                    "remove": {
+		                        "href": "https://prod-s0-feed.nubank.com.br/api/transactions/578e8371-ba8d-435d-81d1-16b40fafe36d/tags/5793c135-3a1c-48e2-979f-07df35c7712f"
+		                    }
+		                },
+		                "description": "saude"
+		            }
+		        ],
+		        "time": "2016-07-19T19:45:51Z",
+		        "time_wallclock": "2016-07-19T19:45:51",
+		        "type": "card_present"
+		    }
+		}`
+		w.Write([]byte(response))
+	}))
+	defer ts.Close()
+
+	service := nubank.NewService(ts.URL)
+	
+	err, details := service.GetTransactionDetails(ts.URL, ACCESS_TOKEN)
+
+	assert.Nil(t, err)
+	assert.Equal(t, "Drogarias Pacheco", details["title"].(string))
+	assert.Equal(t, float64(50.58), details["amount"].(float64))
+	assert.Equal(t, "|farmacia|", details["tags"].([]string)[0])
+	assert.Equal(t, "|saude|", details["tags"].([]string)[1])
 }

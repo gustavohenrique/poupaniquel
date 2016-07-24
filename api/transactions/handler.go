@@ -37,7 +37,7 @@ func (this *Handler) FetchAll(ctx *iris.Context) {
 		next := page + 1
 		link = fmt.Sprintf(`</api/v1/transactions?page=%d>; rel="previous", </api/v1/transactions?page=%d>; rel="next"`, previous, next)
 	} else {
-		log.Println("Error in FetchAll.", err)
+		log.Println("Error on FetchAll.", err)
 	}
 	ctx.SetHeader("link", link)
 	ctx.JSON(status, transactions)
@@ -48,7 +48,7 @@ func (this *Handler) FetchOne(ctx *iris.Context) {
 	err, transaction := service.FetchOne(id)
 	status := 200
 	if err != nil {
-		log.Println("Error in FetchOne. ID =", id, err)
+		log.Println("Error on FetchOne. ID =", id, err)
 		status = 404
 	}
 	ctx.JSON(status, transaction)
@@ -59,7 +59,7 @@ func (this *Handler) Delete(ctx *iris.Context) {
 	err := service.Delete(id)
 	status := 204
 	if err != nil {
-		log.Println("Error in Delete.", err)
+		log.Println("Error on Delete.", err)
 		status = 500
 	}
 	ctx.JSON(status, nil)
@@ -95,7 +95,7 @@ func save(transaction Transaction, err error) (status int, response interface{})
 		}
 	}
 	if err != nil {
-		log.Println("Error in save.", err)
+		log.Println("Error on save.", err)
 		status = 400
 		response = helper.CreateErrorMap(err)
 	}

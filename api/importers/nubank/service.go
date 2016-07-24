@@ -4,15 +4,18 @@ import (
 	"log"
 	"fmt"
 	"errors"
+	"strings"
+	"time"
 	"encoding/json"
 
 	"github.com/parnurzeal/gorequest"
 )
 
 type ApiImporter interface {
-	Authenticate(string, string, string) (error, map[string]string)
-	GetBillsSummary(string, string) (error, []map[string]interface{})
-	GetBillItems(string, string) (error, []map[string]interface{})
+	Authenticate(string, string, string)  (error, map[string]string)
+	GetBillsSummary(string, string)       (error, []map[string]interface{})
+	GetBillItems(string, string)          (error, []map[string]interface{})
+	GetTransactionDetails(string, string) (error, map[string]interface{})
 }
 
 type Service struct {
@@ -24,6 +27,10 @@ type Auth struct {
 	Links map[string]map[string]string `json:"_links"`
 }
 
+type Summary struct {
+	Bills []Bill `json:"bills"`
+}
+
 type Bill struct {
 	Id string                          `json:"id"`
 	State string                       `json:"state"`
@@ -32,12 +39,16 @@ type Bill struct {
 	Items []map[string]interface{}     `json:"line_items"`
 }
 
-type Summary struct {
-	Bills []Bill `json:"bills"`
+type Detail struct {
+	Amount float64                `json:"amount"`
+	MerchantName string           `json:"merchant_name"`
+	Date time.Time                `json:"pulled_at"`
+	Tags []map[string]interface{} `json:"tags"`
 }
 
 const (
 	AuthUrl = "https://prod-auth.nubank.com.br/api/token"
+	TransactionDetailsUrlBase = "https://prod-s0-feed.nubank.com.br/api/transactions"
 	Origin = "https://conta.nubank.com.br"
 	ClientId = "other.legacy"
 	ClientSecret = "1iHY2WHAXj25GFSHTx9lyaTYnb4uB-v6"
@@ -139,14 +150,54 @@ func (this *Service) GetBillItems(url string, token string) (error, []map[string
 	for _, item := range items["bill"].Items {
 		amount := item["amount"].(float64) / 100
 		if amount > 0 {
+			href := item["href"].(string)
 			b := map[string]interface{}{
 				"id": item["id"],
 				"date": item["post_date"],
 				"amount": amount,
 				"title": item["title"],
+				"transactionId": strings.Replace(href, "nuapp://transaction/", "", -1),
 			}
 			result = append(result, b)
 		}
 	}
 	return nil, result
+}
+
+func (this *Service) GetTransactionDetails(url string, token string) (error, map[string]interface{}) {
+	request := gorequest.New()
+	response, body, _ := request.Get(url).
+		Set("Origin", this.Origin).
+		Set("Content-Type", "application/json").
+		Set("Authorization", "Bearer " + token).
+		End()
+
+	if response.StatusCode == 429 {
+		log.Println("Too many requests fetching details.")
+		return errors.New("Too many requests fetching details."), nil
+	}
+
+	var details map[string]Detail
+	err := json.Unmarshal([]byte(body), &details);
+	if response.StatusCode > 400 || err != nil {
+		log.Printf("Error fetching transaction details. Status=%d. %s", response.StatusCode, err)
+		return err, nil
+	}
+	
+	detail := details["transaction"]
+	amount := detail.Amount / 100
+	if amount > 0 {
+		var tags []string
+		for _, tag := range detail.Tags {
+			t := fmt.Sprintf("|%s|", tag["description"])
+			tags = append(tags, t)
+		}
+		return nil, map[string]interface{}{
+			"date": detail.Date,
+			"title": detail.MerchantName,
+			"amount": amount,
+			"tags": tags,
+		}
+	}
+	return nil, nil
 }

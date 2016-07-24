@@ -34,7 +34,8 @@ func Create() *sqlx.DB {
 		description text not null,
 		amount numeric not null default 0,
 		tags text not null default "",
-		parentId integer not null default 0
+		parentId integer not null default 0,
+		unique(dueDate, description, amount)
 	)`
 	tables := []string{transactions}
 	

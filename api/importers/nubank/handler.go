@@ -58,7 +58,7 @@ func (*Handler) ImportData(ctx *iris.Context) {
 			})
 			return
 		}
-		log.Printf("Got %d items from bill id = %s", len(items), bill["id"])
+		log.Printf("Got %d items from bill id=%s", len(items), bill["id"])
 
 		dueDate, _ := time.Parse("2006-01-02", bill["dueDate"].(string))
 		parent := transactions.Transaction{
@@ -76,13 +76,26 @@ func (*Handler) ImportData(ctx *iris.Context) {
 		log.Printf("Transaction #%d was saved.", parentId)
 
 		for _, item := range items {
+			// Disabled fetching details and tags because "too many requests" =/
+			/*
+			log.Printf("Fetching details about item %s", item["id"])
+			url := fmt.Sprintf("%s/%s", TransactionDetailsUrlBase, item["transactionId"])
+			err, details := service.GetTransactionDetails(url, auth["token"])
+			if err != nil {
+				log.Println("Problems to get details for the transsaction.", err)
+				continue
+			}
+			date, _ := details["date"].(time.Time)
+			*/
 			date, _ := time.Parse("2006-01-02", item["date"].(string))
 			children := transactions.Transaction{
 				Description: item["title"].(string),
-				Amount: item["amount"].(float64),
 				DueDate: date,
 				Type: "expense",
 				ParentId: parentId,
+				Amount: item["amount"].(float64),
+				// Amount: details["amount"].(float64),
+				// Tags: details["tags"].([]string),
 			}
 			if err, _ := transactionService.Save(children); err != nil {
 				log.Println("Failed saving a child transaction with parentId=", parentId, err)
