@@ -13,7 +13,8 @@ export class Navbar extends React.Component {
     const titles = {
       '': 'Transactions',
       'transactions': 'Transactions',
-      'reports': 'Reports'
+      'reports': 'Reports',
+      'nubank': 'Import from Nubank'
     };
 
     const title = path ? titles[path.pathname.split('/')[1]] : '' || 'Poupaniquel';
@@ -29,16 +30,10 @@ export class Navbar extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.users.isAuthenticated
-  };
-};
-
 const mapDispatchToProps = dispatch => ({
   showMenu: () => {
     dispatch({ type: 'TOGGLE_MENU' });
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(null, mapDispatchToProps)(Navbar);

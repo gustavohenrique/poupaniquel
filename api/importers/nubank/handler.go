@@ -20,14 +20,23 @@ func NewHandler(s ApiImporter) *Handler {
 	return &Handler{}
 }
 
-func (*Handler) ImportData(ctx *iris.Context) {
-	data := map[string]interface{}{}
-	contentReader := strings.NewReader(string(ctx.PostBody()))
-	json.NewDecoder(contentReader).Decode(&data)
-	username := data["username"].(string)
-	password := data["password"].(string)
+func (*Handler) Hello(ctx *iris.Context) {
+	ctx.JSON(200, "")
+}
 
-	err, auth := service.Authenticate(AuthUrl, username, password)
+func (*Handler) ImportData(ctx *iris.Context) {
+	var data map[string]string
+	contentReader := strings.NewReader(string(ctx.PostBody()))
+	err := json.NewDecoder(contentReader).Decode(&data)
+	if err != nil {
+		ctx.JSON(409, map[string]string{
+			"code": "InvalidRequestError",
+			"message": "Credential invalid.",
+		})
+		return
+	}
+
+	err, auth := service.Authenticate(AuthUrl, data["username"], data["password"])
 	if err != nil {
 		ctx.JSON(400, map[string]interface{}{
 			"code": "NubankAuthenticationError",

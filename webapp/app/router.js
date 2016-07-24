@@ -2,11 +2,10 @@ import React from 'react';
 import { Router, IndexRoute, Route } from 'react-router';
 import { history } from './store';
 
-import { loginRequired } from 'users/components/AuthenticationWrapper';
 import App from 'components/App';
 import Transactions from 'transactions/components/index';
 import Reports from 'reports/components/index';
-import Login from 'users/components/Login';
+import Importers from 'importers/components/index';
 
 export default (
   <Router onUpdate={() => window.scrollTo(0, 0)} history={history}>
@@ -16,7 +15,7 @@ export default (
       <Route path='/transactions/create' component={Transactions.Create} />
       <Route path='/transactions/edit/:transactionId' component={Transactions.Edit} />
       <Route path='/reports' component={Reports.Tags} />
-      <Route path='/login' component={Login} />
+      <Route path='/nubank' component={Importers.Nubank} />
     </Route>
   </Router>
 );

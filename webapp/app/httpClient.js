@@ -44,7 +44,7 @@ function getUrl (url) {
   return `${config.get('baseUrl')}${url}`;
 }
 
-function putTokenIn (config) {
+function putTokenIn (config = {}) {
   if (config && config.useToken) {
     const TOKEN = localStorage.getItem('token');
     config.headers = TOKEN ? {
@@ -58,6 +58,13 @@ function putTokenIn (config) {
       }
     }
     delete config.useToken;
+  }
+  else {
+    config.headers = {
+      common: {
+        'Content-Type': 'application/json'
+      }
+    };
   }
   return config;
 }

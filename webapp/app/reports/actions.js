@@ -26,7 +26,7 @@ export function showReports (data) {
           });
           const pie = {
             labels: [filter.tag, 'Total'],
-            data: [sum.amount, response.data[0].total]
+            data: [parseFloat(sum.amount.toFixed(2)), parseFloat(response.data[0].total.toFixed(2))]
           };
           dispatch({
             type: `${type}_SUCCESS`,

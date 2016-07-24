@@ -18,4 +18,5 @@ vendor
 *.db
 main
 poupaniquel-windows-4.0-amd64.exe
+poupaniquel-darwin-10.6-amd64
 poupaniquel-linux-amd64

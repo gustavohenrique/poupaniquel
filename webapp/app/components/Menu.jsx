@@ -13,6 +13,7 @@ export class Menu extends React.Component {
         <Link to="/">Home</Link>
         <Link to="transactions">Transactions</Link>
         <Link to="reports">Reports</Link>
+        <Link to="nubank">Nubank</Link>
       </div>
     );
   }
@@ -20,7 +21,6 @@ export class Menu extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.users.isAuthenticated,
     isMenuVisible: state.common.isMenuVisible
   };
 };

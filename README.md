@@ -24,6 +24,12 @@ glide install
 go build -o poupaniquel main.go
 ```
 
+## Tests
+
+```
+make tests
+```
+
 ## API Docs
 
 Visit [http://docs.poupaniquel.apiary.io](http://docs.poupaniquel.apiary.io) or [http://localhost:7000/docs](http://localhost:7000/docs)

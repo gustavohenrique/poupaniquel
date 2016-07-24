@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as formReducer } from 'redux-form';
 
-import users from './users/reducer';
 import transactions from './transactions/reducer';
 import reports from './reports/reducer';
+import importers from './importers/reducer';
 
 
 const INITIAL_STATE = {
@@ -54,7 +54,7 @@ export default combineReducers({
   common: commonReducer,
   routing: routerReducer,
   form: formReducer,
-  users,
   transactions,
-  reports
+  reports,
+  importers
 });
