@@ -18,7 +18,7 @@ func (this *Dao) ByTag(params map[string]interface{}) (err error, result []map[s
 	like := "tags LIKE '%|" + tag + "|%'"
 	dateFormat := "\"%Y-%m\""
 	query := fmt.Sprintf(`SELECT strftime(%s, dueDate) AS date, ROUND(TOTAL(amount), 2) AS amount,
-		ROUND((SELECT TOTAL(amount) FROM transactions WHERE type = :type AND dueDate >= :startDate AND dueDate <= :endDate), 2) AS total
+		ROUND((SELECT TOTAL(amount) FROM transactions WHERE type = :type AND dueDate >= :startDate AND dueDate <= :endDate AND (parentId=0 OR parentId IS NULL)), 2) AS total
 	  	FROM transactions
 	 	WHERE %s AND type = :type
 	   	AND dueDate >= :startDate and dueDate <= :endDate

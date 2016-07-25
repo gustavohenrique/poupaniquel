@@ -82,7 +82,7 @@ const validate = values => {
     errors.amount = 'Use . as decimal separator. Example: 25.99';
   }
   else if (parseFloat(values.amount) < 0) {
-    errors.amount = 'The amount must be > 0.';
+    errors.amount = 'The amount must be >= 0.';
   }
   return errors;
 };

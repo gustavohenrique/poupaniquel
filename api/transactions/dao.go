@@ -32,7 +32,7 @@ func (this *Dao) FetchAll(params map[string]interface{}) (err error, list []Raw)
 
 	db := database.Connect()
 	query := fmt.Sprintf(`WITH CTE AS (
-		SELECT t.id, t.createdAt, t.dueDate, t.type, t.description, ROUND(t.amount, 2) as famount, t.tags, t.parentId, 1 RecursiveCallNumber FROM transactions t WHERE t.id
+		SELECT t.id, t.createdAt, t.dueDate, t.type, t.description, ROUND(t.amount, 2) as amount, t.tags, t.parentId, 1 RecursiveCallNumber FROM transactions t WHERE t.id
 			IN (SELECT id FROM transactions WHERE parentId IS NULL OR parentId=0 ORDER BY %s %s LIMIT %d OFFSET %d)
 		UNION ALL
 		SELECT  t.*, RecursiveCallNumber+1 RecursiveCallNumber FROM transactions t

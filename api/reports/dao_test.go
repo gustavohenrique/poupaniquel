@@ -47,13 +47,13 @@ func TestGetReportByTag(t *testing.T) {
 
 	assert.Equal(t, "2016-01", result[0]["month"])
 	assert.Equal(t, float64(1000), result[0]["amount"])
-	assert.Equal(t, float64(3355), result[0]["total"])
+	assert.Equal(t, float64(1690), result[0]["total"])
 
 	assert.Equal(t, "2016-02", result[1]["month"])
 	assert.Equal(t, float64(800), result[1]["amount"])
-	assert.Equal(t, float64(3355), result[1]["total"])
+	assert.Equal(t, float64(1690), result[1]["total"])
 
 	assert.Equal(t, "2016-03", result[2]["month"])
 	assert.Equal(t, float64(190), result[2]["amount"])
-	assert.Equal(t, float64(3355), result[2]["total"])
+	assert.Equal(t, float64(1690), result[2]["total"])
 }
