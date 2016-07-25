@@ -1,7 +1,10 @@
 package main
 
 import (
+	"net"
+
 	"github.com/kataras/iris"
+
 	"github.com/gustavohenrique/poupaniquel/api"
 	"github.com/gustavohenrique/poupaniquel/api/database"
 	"github.com/gustavohenrique/poupaniquel/api/webpage"
@@ -23,9 +26,10 @@ func main() {
 
 	banner := `
  ۜ\(סּںסּَ' )/ۜ
-Poupaniquel API v0.0.1 Iris v` + iris.Version
+Poupaniquel API v0.0.2 Iris v` + iris.Version
 
-	server.Logger.PrintBanner(banner, "\nVisit http://localhost:7000 in Google Chrome, Firefox, Opera or Safari.")
+	ip := getIpAddress()
+	server.Logger.PrintBanner(banner, "\nVisit http://" + ip + ":7000 in Google Chrome, Firefox, Opera or Safari.")
 	server.Listen(":7000")
 }
 
@@ -34,4 +38,39 @@ func params(baseUrl string, service interface{}) map[string]interface{} {
 		"baseUrl": baseUrl,
 		"service": service,
 	}
+}
+
+func getIpAddress() string {
+	ifaces, _ := net.Interfaces()
+
+	for _, iface := range ifaces {
+		if iface.Flags&net.FlagUp == 0 {
+			continue // interface down
+		}
+		if iface.Flags&net.FlagLoopback != 0 {
+			continue // loopback interface
+		}
+		addrs, err := iface.Addrs()
+		if err != nil {
+			panic(err)
+		}
+		for _, addr := range addrs {
+			var ip net.IP
+			switch v := addr.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
+			}
+			if ip == nil || ip.IsLoopback() {
+				continue
+			}
+			ip = ip.To4()
+			if ip == nil {
+				continue // not an ipv4 address
+			}
+			return ip.String()
+		}
+	}
+	return "localhost"
 }
