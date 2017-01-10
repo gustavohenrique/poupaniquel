@@ -1,4 +1,8 @@
 # Nubank
+#
+# export TOKEN= `./nubank.sh auth <cpf-sem-tracos> <senha>`
+# ./nubank.sh transactions 2016-01-01
+#
 
 CT="Content-Type:application/json"
 ORIG="Origin: https://conta.nubank.com.br"
@@ -13,7 +17,9 @@ function POST {
 
 ## Authenticate
 function auth {
-	resp=$(POST "{\"username\": \"$1\", \"password\": \"$2\", \"client_id\": \"other.legacy\", \"client_secret\": \"1iHY2WHAXj25GFSHTx9lyaTYnb4uB-v6\", \"grant_type\": \"password\", \"nonce\": \"NOT-RANDOM-YET\"}" "https://prod-auth.nubank.com.br/api/token")
+	resp=$(curl -sL -H "$CT" -H "$ORIG" -H "X-Correlation-Id: WEB-APP.QAoe8" https://prod-s0-webapp-proxy.nubank.com.br/api/discovery)
+	loginUrl=$(echo $resp | awk -F '\"' '{print $4}')
+	resp=$(POST "{\"username\": \"$1\", \"password\": \"$2\", \"client_id\": \"other.conta\", \"client_secret\": \"yQPeLzoHuJzlMMSAjC-LgNUJdUecx8XO\", \"grant_type\": \"password\", \"nonce\": \"NOT-RANDOM-YET\"}" "$loginUrl")
 	token=$(echo $resp | awk -F '\"' '{print $4}')
 	echo $token
 }
