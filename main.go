@@ -5,7 +5,7 @@ import (
 	"log"
 	"fmt"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 
 	"github.com/gustavohenrique/poupaniquel/api"
 	"github.com/gustavohenrique/poupaniquel/api/database"
@@ -28,12 +28,12 @@ func main() {
 
 	banner := `
  ۜ\(סּںסּَ' )/ۜ
-Poupaniquel API v0.0.2 Iris v` + iris.Version
+Poupaniquel API v0.0.3 Gin ` + gin.Version
 
 	ip := getIpAddress()
 	msg := fmt.Sprintf("%s\nVisit http://%s:7000 in Google Chrome, Firefox, Opera or Safari.", banner, ip)
 	log.Println(msg)
-	server.Listen(":7000")
+	server.Run(":7000")
 }
 
 func params(baseUrl string, service interface{}) map[string]interface{} {

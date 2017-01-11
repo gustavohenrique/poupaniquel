@@ -10,6 +10,7 @@ run:
 	go run main.go
 
 build:
+	export GIN_MODE=release
 	go build -o poupaniquel main.go
 
 install:

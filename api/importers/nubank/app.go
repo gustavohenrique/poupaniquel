@@ -3,16 +3,16 @@ package nubank
 import (
 	"log"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
-func New(server *iris.Framework, params map[string]interface{}) {
+func New(server *gin.Engine, params map[string]interface{}) {
 	baseUrl := params["baseUrl"].(string)
 	if val, ok := params["service"]; ok {
 		service = val.(ApiImporter)
 		handler := NewHandler(service)
-		server.Get(baseUrl + "/import/nubank", handler.Hello)
-		server.Post(baseUrl + "/import/nubank", handler.ImportData)
+		server.GET(baseUrl + "/import/nubank", handler.Hello)
+		server.POST(baseUrl + "/import/nubank", handler.ImportData)
 	} else {
 		log.Fatal("No service defined.")
 	}

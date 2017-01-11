@@ -1,12 +1,12 @@
 package webpage
 
-import "github.com/kataras/iris"
+import "gopkg.in/gin-gonic/gin.v1"
 
-func New(server *iris.Framework) {
-	server.Get("/", ServeHtml)
-	server.Get("/app.js", ServeJs)
-	server.Get("/app.css", ServeCss)
-	server.Get("/docs", func (ctx *iris.Context) {
-		ctx.Redirect("http://docs.poupaniquel.apiary.io/", 301)
+func New(server *gin.Engine) {
+	server.GET("/", ServeHtml)
+	server.GET("/app.js", ServeJs)
+	server.GET("/app.css", ServeCss)
+	server.GET("/docs", func (ctx *gin.Context) {
+		ctx.Redirect(301, "http://docs.poupaniquel.apiary.io/")
 	})
 }

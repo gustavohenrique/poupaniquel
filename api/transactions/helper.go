@@ -2,8 +2,9 @@ package transactions
 
 import (
 	"fmt"
+	"strconv"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 type Helper struct {}
@@ -19,17 +20,17 @@ func (*Helper) CreateErrorMap(err error) map[string]string {
 	}
 }
 
-func (*Helper) GetPageParameters(ctx *iris.Context) map[string]interface{} {
+func (*Helper) GetPageParameters(ctx *gin.Context) map[string]interface{} {
 	var page, perPage = 1, 1
-	page, err := ctx.URLParamInt("page")
+	page, err := strconv.Atoi(ctx.Query("page"))
 	if err != nil || page < 1 {
 		page = 1
 	}
-	perPage, err = ctx.URLParamInt("perPage")
+	perPage, err = strconv.Atoi(ctx.Query("perPage"))
 	if err != nil || perPage < 1 {
 		perPage = 1
 	}
-	sort := ctx.URLParam("sort")
+	sort := ctx.Query("sort")
 	if sort == "" {
 		sort = "id"
 	}

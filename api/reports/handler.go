@@ -5,7 +5,7 @@ import (
 	"time"
 	"errors"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 type Handler struct {}
@@ -17,7 +17,7 @@ func NewHandler(s Reporter) *Handler {
 	return &Handler{}
 }
 
-func (*Handler) Report(ctx *iris.Context) {
+func (*Handler) Report(ctx *gin.Context) {
 	err, params := getParamsFrom(ctx)
 	if err != nil {
 		log.Println("Error getting query data to generate report.", err)
@@ -40,11 +40,11 @@ func (*Handler) Report(ctx *iris.Context) {
 	ctx.JSON(200, report)
 }
 
-func getParamsFrom(ctx *iris.Context) (err error, params map[string]interface{}) {
-	tag := ctx.URLParam("tag")
-	transactionType := ctx.URLParam("type")
-	from := ctx.URLParam("from")
-	until := ctx.URLParam("until")
+func getParamsFrom(ctx *gin.Context) (err error, params map[string]interface{}) {
+	tag := ctx.Param("tag")
+	transactionType := ctx.Param("type")
+	from := ctx.Param("from")
+	until := ctx.Param("until")
 	if tag == "" || from == "" || until == "" || transactionType == "" {
 		err = errors.New("The url params 'tag', 'type', 'from' and 'until' are required.")
 		return err, params

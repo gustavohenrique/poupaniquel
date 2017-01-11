@@ -3,9 +3,11 @@ package transactions
 import (
 	"fmt"
 	"log"
-	"encoding/json"
-	"strings"
-	"github.com/kataras/iris"
+	"strconv"
+	// "encoding/json"
+	// "strings"
+
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
 type Handler struct {}
@@ -18,7 +20,7 @@ func NewHandler(s TransactionManager) *Handler {
 	return &Handler{}
 }
 
-func (this *Handler) FetchAll(ctx *iris.Context) {
+func (this *Handler) FetchAll(ctx *gin.Context) {
 	params := helper.GetPageParameters(ctx)
 	page := params["page"].(int)
 	err, transactions := service.FetchAll(params)
@@ -39,12 +41,12 @@ func (this *Handler) FetchAll(ctx *iris.Context) {
 	} else {
 		log.Println("Error on FetchAll.", err)
 	}
-	ctx.SetHeader("link", link)
+	ctx.Writer.Header().Set("link", link)
 	ctx.JSON(status, transactions)
 }
 
-func (this *Handler) FetchOne(ctx *iris.Context) {
-	id, _ := ctx.ParamInt("id")
+func (this *Handler) FetchOne(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	err, transaction := service.FetchOne(id)
 	status := 200
 	if err != nil {
@@ -54,18 +56,18 @@ func (this *Handler) FetchOne(ctx *iris.Context) {
 	ctx.JSON(status, transaction)
 }
 
-func (this *Handler) Delete(ctx *iris.Context) {
-	id, _ := ctx.ParamInt("id")
+func (this *Handler) Delete(ctx *gin.Context) {
+	id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 	err := service.Delete(id)
-	status := 204
+	status := 200
 	if err != nil {
 		log.Println("Error on Delete.", err)
 		status = 500
 	}
-	ctx.JSON(status, nil)
+	ctx.JSON(status, err)
 }
 
-func (this *Handler) Create(ctx *iris.Context) {
+func (this *Handler) Create(ctx *gin.Context) {
 	transaction, err := getPostBodyFrom(ctx)
 	if err == nil {
 		err = transaction.Validate()
@@ -74,10 +76,10 @@ func (this *Handler) Create(ctx *iris.Context) {
 	ctx.JSON(status, response)
 }
 
-func (this *Handler) Update(ctx *iris.Context) {
+func (this *Handler) Update(ctx *gin.Context) {
 	transaction, err := getPostBodyFrom(ctx)
 	if err == nil {
-		id, _ := ctx.ParamInt("id")
+		id, _ := strconv.Atoi(ctx.Params.ByName("id"))
 		transaction.Id = int64(id)
 		err = transaction.Validate()
 	}
@@ -102,9 +104,10 @@ func save(transaction Transaction, err error) (status int, response interface{})
 	return status, response
 }
 
-func getPostBodyFrom(ctx *iris.Context) (Transaction, error) {
+func getPostBodyFrom(ctx *gin.Context) (Transaction, error) {
 	transaction := Transaction{}
-	requestData := strings.NewReader(string(ctx.PostBody()))
-	err := json.NewDecoder(requestData).Decode(&transaction)
-	return transaction, err
+	// requestData := strings.NewReader(string(ctx.PostBody()))
+	ctx.BindJSON(&transaction)
+	// err := json.NewDecoder(requestData).Decode(&transaction)
+	return transaction, nil
 }

@@ -2,11 +2,11 @@ package nubank
 
 import (
 	"log"
-	"strings"
-	"encoding/json"
 	"time"
+	// "strings"
+	// "encoding/json"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 
 	"github.com/gustavohenrique/poupaniquel/api/transactions"
 )
@@ -20,21 +20,22 @@ func NewHandler(s ApiImporter) *Handler {
 	return &Handler{}
 }
 
-func (*Handler) Hello(ctx *iris.Context) {
+func (*Handler) Hello(ctx *gin.Context) {
 	ctx.JSON(200, "")
 }
 
-func (*Handler) ImportData(ctx *iris.Context) {
+func (*Handler) ImportData(ctx *gin.Context) {
 	var data map[string]string
-	contentReader := strings.NewReader(string(ctx.PostBody()))
-	err := json.NewDecoder(contentReader).Decode(&data)
-	if err != nil {
-		ctx.JSON(409, map[string]string{
-			"code": "InvalidRequestError",
-			"message": "Credential invalid.",
-		})
-		return
-	}
+	// contentReader := strings.NewReader(string(ctx.PostBody()))
+	// err := json.NewDecoder(contentReader).Decode(&data)
+	ctx.BindJSON(&data)
+	// if err != nil {
+	ctx.JSON(409, map[string]string{
+		"code": "InvalidRequestError",
+		"message": "Credential invalid.",
+	})
+		// return
+	// }
 
 	_, discovery := service.Discover()
 	err, auth := service.Authenticate(discovery["authUrl"], data["username"], data["password"])

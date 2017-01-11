@@ -1,6 +1,6 @@
 package webpage
-import "github.com/kataras/iris"
-func ServeHtml(ctx *iris.Context) {
+import "gopkg.in/gin-gonic/gin.v1"
+func ServeHtml(ctx *gin.Context) {
 	content := `
 		<!DOCTYPE html>
 <head>
@@ -25,6 +25,6 @@ func ServeHtml(ctx *iris.Context) {
 </body>
 </html>
 	`
-	ctx.Text(iris.StatusOK, content)
-	ctx.SetContentType("text/html")
+  ctx.Writer.Header().Set("Content-Type", "text/html")
+  ctx.String(200, content)
 }

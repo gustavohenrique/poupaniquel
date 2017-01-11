@@ -7,8 +7,8 @@ DEST_DIR="api/webpage"
 content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/index.html)
 read -r -d '' CODE << EOM
 package webpage
-import "github.com/kataras/iris"
-func ServeHtml(ctx *iris.Context) {
+import "gopkg.in/gin-gonic/gin.v1"
+func ServeHtml(ctx *gin.Context) {
 	content := \`
 		$content
 	\`
@@ -23,7 +23,7 @@ content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/app.js)
 read -r -d '' CODE << EOM
 package webpage
 import "github.com/kataras/iris"
-func ServeJs(ctx *iris.Context) {
+func ServeJs(ctx *gin.Context) {
 	content := \`
 		$content
 	\`
@@ -38,7 +38,7 @@ content=$(sed -e 's/`/'"'"'/g' $PUBLIC_DIR/app.css)
 read -r -d '' CODE << EOM
 package webpage
 import "github.com/kataras/iris"
-func ServeCss(ctx *iris.Context) {
+func ServeCss(ctx *gin.Context) {
 	content := \`
 		$content
 	\`

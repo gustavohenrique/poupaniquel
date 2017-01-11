@@ -3,15 +3,15 @@ package reports
 import (
 	"log"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
-func New(server *iris.Framework, params map[string]interface{}) {
+func New(server *gin.Engine, params map[string]interface{}) {
 	baseUrl := params["baseUrl"].(string)
 	if val, ok := params["service"]; ok {
 		service = val.(Reporter)
 		handler := NewHandler(service)
-		server.Get(baseUrl + "/reports", handler.Report)
+		server.GET(baseUrl + "/reports", handler.Report)
 	} else {
 		log.Fatal("No service defined.")
 	}

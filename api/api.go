@@ -1,23 +1,29 @@
 package api
 
 import (
-	"github.com/kataras/iris"
-	"github.com/iris-contrib/middleware/cors"
+	"time"
+
+	"gopkg.in/gin-contrib/cors.v1"
+	"gopkg.in/gin-gonic/gin.v1"
 )
 
-func NewServer() *iris.Framework {
+func NewServer() *gin.Engine {
 	/*crs := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedHeaders: []string{"Link", "Location", "Accept", "Authorization", "Content-Type"},
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		ExposedHeaders: []string{"Link", "Location"},
 	})*/
-	iris.Use(cors.Default())
-	server := iris.New(iris.Configuration{
-		DisableBanner: true,
-		// Tester: iris.Default.Config.Tester{ListeningAddr: "iris-go.com:1993/api/v1", ExplicitURL: false, Debug: false},
-	})
-	//iris.Use(crs)
+	// gin.SetMode(gin.ReleaseMode)
+	server := gin.Default()
+	server.Use(cors.New(cors.Config{
+        // AllowOrigins:     []string{"*"},
+        AllowAllOrigins:  true,
+        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+        AllowHeaders:     []string{"Link", "Location", "Accept", "Authorization", "Content-Type"},
+        ExposeHeaders:    []string{"Link", "Location"},
+        MaxAge: 1 * time.Hour,
+    }))
 
 	return server
 }
