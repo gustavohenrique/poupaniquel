@@ -1,90 +1,87 @@
-hash: 02045c6e3fa89ec17f6bedd492d9689ff1e022301ae6ffccea8618a9b87c7c13
-updated: 2016-07-22T22:16:24.19782166-03:00
+hash: a240fac2746e8afc3c85fba3ac35ac29361c154ffe1303d50d6458d40fe116a1
+updated: 2017-01-11T14:22:30.669948614-02:00
 imports:
 - name: github.com/ajg/form
-  version: 7ff89c75808766205bfa4411abb436c98c33eb5e
-- name: github.com/aymerick/raymond
-  version: a2232af10b53ef1ae5a767f5178db3a6c1dab655
-  subpackages:
-  - ast
-  - parser
-  - lexer
-- name: github.com/davecgh/go-spew
-  version: 2df174808ee097f90d259e432cc04442cf60be21
-  subpackages:
-  - spew
-- name: github.com/eknkc/amber
-  version: 7875e9689d335cd15294cd6f4f0ef8322ce4c8e7
-  subpackages:
-  - parser
-- name: github.com/fatih/color
-  version: 87d4004f2ab62d0d255e0a38f1680aa534549fe3
+  version: cc2954064ec9ea8d93917f0f87456e11d7b881ad
 - name: github.com/fatih/structs
-  version: be738c8546f55b34e60125afa50ed73a9a9c460e
-- name: github.com/flosch/pongo2
-  version: 5e20832cab69d8dc4453e2403804e451a26d1277
-- name: github.com/garyburd/redigo
-  version: b8dc90050f24c1a73a52f107f3f575be67b21b7c
-  subpackages:
-  - redis
-  - internal
-- name: github.com/gavv/gojsondiff
-  version: 36046c6e558e7f854ebd3fd97d1e9812ebe8709b
-  subpackages:
-  - formatter
+  version: a720dfa8df582c51dee1b36feabb906bde1588bd
 - name: github.com/gavv/httpexpect
-  version: b5a77ac370dcc9bc2021de6e4144d364de272cba
+  version: 40724cf1e4a08b670b14a02deff693a91f3aa9a0
 - name: github.com/gavv/monotime
-  version: 259cd7b345f5aa080eff16f21d7866ef7dea9528
+  version: 47d58efa69556a936a3c15eb2ed42706d968ab01
+- name: github.com/geekypanda/httpcache
+  version: 76ba6c68462ae362cda7564c44492b95322b363a
+  subpackages:
+  - internal/fhttp
+  - internal/nethttp
+  - internal/server
+  - internal
+  - internal/fhttp/rule
+  - internal/nethttp/rule
+- name: github.com/google/go-github
+  version: dcda0b96bd591fbeb40dcaddec3fb40a7fcaca34
+  subpackages:
+  - github
 - name: github.com/google/go-querystring
   version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
   subpackages:
   - query
+- name: github.com/gorilla/websocket
+  version: adf16b31781325cbd41085c5be901d95b4d1f33d
+- name: github.com/hashicorp/go-version
+  version: e96d3840402619007766590ecea8dd7af1292276
 - name: github.com/imdario/mergo
   version: 50d4dbd4eb0e84778abe37cefef140271d96fade
-- name: github.com/imkira/go-interpol
-  version: b9781c93ae51c8b4fc3af1b1426909721af0a624
-- name: github.com/iris-contrib/errors
-  version: 9d4599565f75fd376a8e4ae5ccc98fc078b93b69
 - name: github.com/iris-contrib/formBinder
-  version: 32009bbc76eda475a6d1eb24787d1fdcdaf80e71
+  version: 81b6a071e35797b83562caf4b3cad24dc01912dc
+- name: github.com/iris-contrib/lego
+  version: 095d7f6459c501cb15319aa2754afa221b81a3ec
+  subpackages:
+  - acme
+- name: github.com/iris-contrib/letsencrypt
+  version: 1a3e5c619a13b307df3b1b4da7cb7e57d2e156dd
 - name: github.com/iris-contrib/middleware
-  version: ec90193d8e82737647049cb870ebc6381c6ad087
+  version: eff973db50aaea60190e75f8f5dc343f7de34b38
   subpackages:
   - cors
 - name: github.com/iris-contrib/websocket
-  version: a2c30084384c39ce6595169df8b93d7298ac04cd
+  version: cc9f1712095295a828e9a2efaef388d30b9c7760
 - name: github.com/jmoiron/sqlx
-  version: bdae0c3219c3bdb92f3d7c70825018712787c933
+  version: cac998c4f0959c19c638c523e374fa8e4e0bcfe3
   subpackages:
   - reflectx
-- name: github.com/Joker/jade
-  version: db4d7e4f68708c5020c392b380e3565df2132840
 - name: github.com/jtolds/gls
   version: 8ddce2a84170772b95dd5d576c48d517b22cac63
+- name: github.com/kataras/go-errors
+  version: 0f977b82cc78d5d31bb75fb6f903ad9e852c8bbd
+- name: github.com/kataras/go-fs
+  version: c029e113d9faaf558b730f06041c8bf9545a3502
+- name: github.com/kataras/go-options
+  version: 23b556c1b935c594ec6d71ff81ead4dbeec3aa8d
+- name: github.com/kataras/go-serializer
+  version: 0bd874a15c70db74ef2e668e5eeda27041f03b81
+  subpackages:
+  - data
+  - json
+  - jsonp
+  - markdown
+  - text
+  - xml
+- name: github.com/kataras/go-sessions
+  version: 0bbd868d2fae7aa2577d5331f9166216a12ecb35
+- name: github.com/kataras/go-template
+  version: 457f21178102f4688603eccbb4f2e8d5ae1023bf
+  subpackages:
+  - html
+- name: github.com/kataras/go-websocket
+  version: f65d59683821f0087910d65badf1b9d95e59c41a
 - name: github.com/kataras/iris
-  version: 13a612bfa1091c90b1793547e1350dffaf224215
+  version: bfac948889256ebe36e3a1b2b2dc32bbd3c7e82a
   subpackages:
   - config
-  - context
-  - logger
-  - render/rest
-  - render/template
-  - sessions
-  - sessions/providers/memory
-  - sessions/providers/redis
-  - sessions/store
   - utils
-  - websocket
-  - render/template/engine/amber
-  - render/template/engine/handlebars
-  - render/template/engine/html
-  - render/template/engine/jade
-  - render/template/engine/markdown
-  - render/template/engine/pongo
-  - sessions/providers/redis/service
 - name: github.com/klauspost/compress
-  version: 14eb9c4951195779ecfbec34431a976de7335b0a
+  version: e3b7981a12dd3cab49afa1d3a50e715846f23732
   subpackages:
   - gzip
   - flate
@@ -92,67 +89,70 @@ imports:
 - name: github.com/klauspost/cpuid
   version: 09cded8978dc9e80714c4d85b0322337b0a1e5e0
 - name: github.com/klauspost/crc32
-  version: 19b0b332c9e4516a6370a0456e6182c3b5036720
-- name: github.com/mattn/go-colorable
-  version: 9056b7a9f2d1f2d96498d6d146acd1f9d5ed3d59
-- name: github.com/mattn/go-isatty
-  version: 56b76bdf51f7708750eac80fa38b952bb9f32639
+  version: cb6bfca970f6908083f26f39a79009d608efd5cd
 - name: github.com/mattn/go-sqlite3
-  version: 3b3f1d01b2696af5501697c35629048c227586ab
+  version: ca5e3819723d8eeaf170ad510e7da1d6d2e94a08
 - name: github.com/microcosm-cc/bluemonday
-  version: 9dc199233bf72cc1aad9b61f73daf2f0075b9ee4
+  version: e79763773ab6222ca1d5a7cbd9d62d83c1f77081
+- name: github.com/miekg/dns
+  version: ca336a1f95a6b89be9c250df26c7a41742eb4a6f
 - name: github.com/moul/http2curl
-  version: b1479103caacaa39319f75e7f57fc545287fca0d
+  version: 4e24498b31dba4683efb9d35c1c8a91e2eda28c8
 - name: github.com/parnurzeal/gorequest
-  version: b64673b971a1742b8ba91f228f1c029632d4b686
-- name: github.com/pmezard/go-difflib
-  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
-  subpackages:
-  - difflib
+  version: 2aea80ce763523ecc6452e61c3727ae9595a5809
 - name: github.com/russross/blackfriday
-  version: 93622da34e54fb6529bfb7c57e710f37a8d9cbd8
-- name: github.com/sergi/go-diff
-  version: 97b2266dfe4bd4ea1b81a463322f04f8b724801e
-  subpackages:
-  - diffmatchpatch
+  version: 5f33e7b7878355cd2b7e6b8eefc48a5472c69f70
 - name: github.com/shurcooL/sanitized_anchor_name
-  version: 10ef21a441db47d8b13ebcc5fd2310f636973c77
+  version: 1dba4b3954bc059efc3991ec364f9f9a35f597d2
 - name: github.com/smartystreets/assertions
   version: e9a2f6771d97c709b2f7609fdf89ebde8b64c926
 - name: github.com/smartystreets/goconvey
   version: d4c757aa9afd1e2fc1832aaab209b5794eb336e1
+- name: github.com/square/go-jose
+  version: 50df5ca198e569d06795909c091ac0cea62e925a
   subpackages:
-  - convey
-- name: github.com/stretchr/testify
-  version: f390dcf405f7b83c997eac1b06768bb9f44dec18
-  subpackages:
-  - assert
-  - require
+  - cipher
+  - json
 - name: github.com/valyala/bytebufferpool
-  version: 8ebd0474e5a2f0a5c7a74ad2bf421a1d1a90264f
+  version: e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7
 - name: github.com/valyala/fasthttp
-  version: 45697fe30a130ec6a54426a069c82f3abe76b63d
+  version: 0a7f0a797cd66b89588d0a7fdd670b706579a621
   subpackages:
   - fasthttpadaptor
   - fasthttputil
-- name: github.com/xeipuuv/gojsonpointer
-  version: e0fe6f68307607d540ed8eac07a342c33fa1b54a
-- name: github.com/xeipuuv/gojsonreference
-  version: e02fc20de94c78484cd5ffb007f8af96be030a45
-- name: github.com/xeipuuv/gojsonschema
-  version: 66a3de92def23708184148ae337750915875e7c1
-- name: github.com/yalp/jsonpath
-  version: 31a79c7593bb93eb10b163650d4a3e6ca190e4dc
+  - stackless
 - name: github.com/yudai/golcs
   version: d1c525dea8ce39ea9a783d33cf08932305373f2c
-- name: golang.org/x/net
-  version: 3797cd8864994d713d909eda5e61ede8683fdc12
+- name: golang.org/x/crypto
+  version: 7c6cc321c680f03b9ef0764448e780704f486b51
   subpackages:
+  - acme/autocert
+  - acme
+  - ocsp
+- name: golang.org/x/net
+  version: 60c41d1de8da134c05b7b40154a9a82bf5b7edb9
+  subpackages:
+  - context
   - publicsuffix
+  - context/ctxhttp
   - html
   - html/atom
-- name: golang.org/x/sys
-  version: a646d33e2ee3172a661fc09bca23bb4889a41bc8
+- name: golang.org/x/time
+  version: f51c12702a4d776e4c1fa9b0fabab841babae631
   subpackages:
-  - unix
-testImports: []
+  - rate
+- name: gopkg.in/square/go-jose.v1
+  version: aa2e30fdd1fe9dd3394119af66451ae790d50e0d
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  subpackages:
+  - assert

@@ -2,6 +2,8 @@ package main
 
 import (
 	"net"
+	"log"
+	"fmt"
 
 	"github.com/kataras/iris"
 
@@ -29,7 +31,8 @@ func main() {
 Poupaniquel API v0.0.2 Iris v` + iris.Version
 
 	ip := getIpAddress()
-	server.Logger.PrintBanner(banner, "\nVisit http://" + ip + ":7000 in Google Chrome, Firefox, Opera or Safari.")
+	msg := fmt.Sprintf("%s\nVisit http://%s:7000 in Google Chrome, Firefox, Opera or Safari.", banner, ip)
+	log.Println(msg)
 	server.Listen(":7000")
 }
 

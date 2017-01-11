@@ -1,23 +1,34 @@
-package: api
+package: github.com/gustavohenrique/poupaniquel
 import:
-- package: github.com/jmoiron/sqlx
-- package: github.com/mattn/go-sqlite3
-  version: ~1.1.0
-- package: github.com/stretchr/testify
-  version: ~1.1.3
-- package: github.com/kataras/iris
-  version: ~3.0.0
 - package: github.com/iris-contrib/middleware
+  version: ~5.0.0
   subpackages:
   - cors
-- package: github.com/gavv/httpexpect
-- package: github.com/smartystreets/goconvey
-  version: ^1.6.2
+- package: github.com/jmoiron/sqlx
+- package: github.com/kataras/iris
+  version: ~5.0.0
   subpackages:
-  - convey
-- package: github.com/jtolds/gls
-  version: ^4.2.0
-- package: github.com/smartystreets/assertions
-  version: ^1.6.0
+  - config
+- package: github.com/mattn/go-sqlite3
+  version: ~1.2.0
 - package: github.com/parnurzeal/gorequest
-  version: ^0.2.13
+  version: ~0.2.14
+- package: gopkg.in/square/go-jose.v1
+- package: github.com/kataras/go-websocket
+  version: ~0.0.3
+- package: github.com/smartystreets/goconvey
+  version: ~1.6.2
+- package: github.com/jtolds/gls
+  version: ~4.2.0
+- package: github.com/smartystreets/assertions
+  version: ~1.6.0
+- package: github.com/gavv/httpexpect
+- package: github.com/ajg/form
+  version: ~1.5.0
+- package: github.com/gavv/monotime
+- package: github.com/yudai/golcs
+testImport:
+- package: github.com/stretchr/testify
+  version: ~1.1.4
+  subpackages:
+  - assert

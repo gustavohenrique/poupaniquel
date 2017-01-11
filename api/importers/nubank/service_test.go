@@ -14,6 +14,14 @@ const (
 	ACCESS_TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjIwMTUtMTItMDRUMTc6MzY6MjIuNjY0LXU5ZC1ldWN1Ri1zQUFBRlJiaER3aUEifQ.eyJpc3MiOiJodHRwczpcL1wvd3d3Lm51YmFuay5jb20uYnIiLCJhdWQiOiJvdGhlci5sZWdhY3kiLCJzdWIiOiI1NGM5NDViMi03ZTVmLTQzZDEtOTc1YS1lYjUxMWY2N2ExOTciLCJleHAiOjE0Njk4MjM4NjEsInNjb3BlIjoiYXV0aFwvdXNlciB1c2VyIiwidmVyc2lvbiI6IjIiLCJpYXQiOjE0NjkyMTkwNjEsImp0aSI6IjE5ekJrY1oxeVhRQUFBRldGRWU5cHcifQ.MxWrJdHo3HHLzsSe4VMgzIDYEycnlSgPFIigjVbBgfsScc7PMzT2OAs5SlGw3v_n-e61Sj8-ucgeAN61wt26Qo7RLLwuHrB8y0mOC61hCpz8LFOCRAghTH64msQ54MPj7fwSGHI6PIhHMha-ggCuZwwzGbr9EJ9PPflN8iBX9FFl7EWa6tVo9z2CvFsnyE_fjc0b69z1Fi5yGvX4hAI1a5ObvkwL7GHiT5gounrH5VrMrLW1tCEozn_QInpq7AhUB4o2qXHcb3-uF2XuVQT0KVeIvE-r3c7jdVdqfRJl2i4Fm2P3UZASFTKe1EfaWUJ2EA9h_56AZQ5ASDQmECKaFA"
 )
 
+
+func TestDiscovery(t *testing.T) {
+	service := nubank.NewService(nubank.Origin)
+	err, discovery := service.Discover()
+	assert.Nil(t, err)
+	assert.Equal(t, 468, len(discovery["authUrl"]))
+}
+
 func TestAuthenticate(t *testing.T) {
 	username, password := "12345678955", "passwd"
 

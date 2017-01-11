@@ -36,7 +36,8 @@ func (*Handler) ImportData(ctx *iris.Context) {
 		return
 	}
 
-	err, auth := service.Authenticate(AuthUrl, data["username"], data["password"])
+	_, discovery := service.Discover()
+	err, auth := service.Authenticate(discovery["authUrl"], data["username"], data["password"])
 	if err != nil {
 		ctx.JSON(400, map[string]interface{}{
 			"code": "NubankAuthenticationError",

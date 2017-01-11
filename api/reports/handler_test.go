@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"github.com/kataras/iris"
+	"github.com/kataras/iris/httptest"
 
 	"github.com/gustavohenrique/poupaniquel/api"
 	"github.com/gustavohenrique/poupaniquel/api/reports"
@@ -19,7 +19,8 @@ func TestReportsSpec(t *testing.T) {
 			"baseUrl": "/api/v1",
 			"service": &fake.Service{},
 		})
-		e := iris.NewTester(server, t)
+		// e := iris.NewTester(server, t)
+		e := httptest.New(server, t, httptest.ExplicitURL(true))
 		
 		Convey("Should returns an error if no URL params was sent", func() {
 			resp := e.GET("/reports").Expect()

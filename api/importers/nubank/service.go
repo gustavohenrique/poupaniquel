@@ -12,6 +12,7 @@ import (
 )
 
 type ApiImporter interface {
+	Discover()                            (error, map[string]string)
 	Authenticate(string, string, string)  (error, map[string]string)
 	GetBillsSummary(string, string)       (error, []map[string]interface{})
 	GetBillItems(string, string)          (error, []map[string]interface{})
@@ -25,6 +26,10 @@ type Service struct {
 type Auth struct {
 	AccessToken string                 `json:"access_token"`
 	Links map[string]map[string]string `json:"_links"`
+}
+
+type Discovery struct {
+	AuthUrl string                 `json:"login"`
 }
 
 type Summary struct {
@@ -47,11 +52,11 @@ type Detail struct {
 }
 
 const (
-	AuthUrl = "https://prod-auth.nubank.com.br/api/token"
+	DiscoveryUrl = "https://prod-s0-webapp-proxy.nubank.com.br/api/discovery"
 	TransactionDetailsUrlBase = "https://prod-s0-feed.nubank.com.br/api/transactions"
 	Origin = "https://conta.nubank.com.br"
-	ClientId = "other.legacy"
-	ClientSecret = "1iHY2WHAXj25GFSHTx9lyaTYnb4uB-v6"
+	ClientId = "other.conta"
+	ClientSecret = "yQPeLzoHuJzlMMSAjC-LgNUJdUecx8XO"
 	GrantType = "password"
 	Nonce = "NOT-RANDOM-YET"
 )
@@ -60,6 +65,27 @@ func NewService(origin string) ApiImporter {
 	return &Service{
 		Origin: origin,
 	}
+}
+
+func (this *Service) Discover() (error, map[string]string) {
+	request := gorequest.New()
+	_, body, err := request.Get(DiscoveryUrl).
+		Set("Content-Type", "application/json").
+		End()
+
+	if err != nil {
+		log.Println("Error connecting to Nubank.", err)
+		return errors.New("Error in discovery method."), nil
+	}
+
+	b := []byte(body)
+	var discovery Discovery
+	json.Unmarshal(b, &discovery)
+	url := discovery.AuthUrl
+	result := map[string]string{
+		"authUrl": url,
+	}
+	return nil, result
 }
 
 func (this *Service) Authenticate(url string, username string, password string) (error, map[string]string) {
@@ -81,7 +107,8 @@ func (this *Service) Authenticate(url string, username string, password string) 
 
 	var err error
 	if response.StatusCode != 200 {
-		err = errors.New("Invalid credentials.")
+		msg := fmt.Sprintf("Status: %d. Peharps the credentials are invalid. URL: %s", response.StatusCode, url)
+		err = errors.New(msg)
 	}
 
 	if err != nil {
@@ -148,15 +175,16 @@ func (this *Service) GetBillItems(url string, token string) (error, []map[string
 	
 	var result []map[string]interface{}
 	for _, item := range items["bill"].Items {
+		// log.Println("%+v\n", item)
 		amount := item["amount"].(float64) / 100
-		if amount > 0 {
-			href := item["href"].(string)
+		href, ok := item["href"]
+		if amount > 0 && ok {
 			b := map[string]interface{}{
 				"id": item["id"],
 				"date": item["post_date"],
 				"amount": amount,
 				"title": item["title"],
-				"transactionId": strings.Replace(href, "nuapp://transaction/", "", -1),
+				"transactionId": strings.Replace(href.(string), "nuapp://transaction/", "", -1),
 			}
 			result = append(result, b)
 		}
