@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	// "encoding/json"
-	// "strings"
 
 	"gopkg.in/gin-gonic/gin.v1"
 )

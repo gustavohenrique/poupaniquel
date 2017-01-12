@@ -3,8 +3,6 @@ package nubank
 import (
 	"log"
 	"time"
-	// "strings"
-	// "encoding/json"
 
 	"gopkg.in/gin-gonic/gin.v1"
 

@@ -41,10 +41,10 @@ func (*Handler) Report(ctx *gin.Context) {
 }
 
 func getParamsFrom(ctx *gin.Context) (err error, params map[string]interface{}) {
-	tag := ctx.Param("tag")
-	transactionType := ctx.Param("type")
-	from := ctx.Param("from")
-	until := ctx.Param("until")
+	tag := ctx.Query("tag")
+	transactionType := ctx.Query("type")
+	from := ctx.Query("from")
+	until := ctx.Query("until")
 	if tag == "" || from == "" || until == "" || transactionType == "" {
 		err = errors.New("The url params 'tag', 'type', 'from' and 'until' are required.")
 		return err, params

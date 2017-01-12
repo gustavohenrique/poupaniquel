@@ -2,9 +2,10 @@ package reports_test
 
 import (
 	"testing"
+	"encoding/json"
 
 	. "github.com/smartystreets/goconvey/convey"
-	"github.com/kataras/iris/httptest"
+	"gopkg.in/appleboy/gofight.v2"
 
 	"github.com/gustavohenrique/poupaniquel/api"
 	"github.com/gustavohenrique/poupaniquel/api/reports"
@@ -15,70 +16,62 @@ func TestReportsSpec(t *testing.T) {
 
 	Convey("/reports", t, func() {
 		server :=  api.NewServer()
+		client := gofight.New()
+
 		reports.New(server, map[string]interface{}{
 			"baseUrl": "/api/v1",
 			"service": &fake.Service{},
 		})
-		// e := iris.NewTester(server, t)
-		e := httptest.New(server, t, httptest.ExplicitURL(true))
 		
 		Convey("Should returns an error if no URL params was sent", func() {
-			resp := e.GET("/reports").Expect()
-			So(resp.Raw().StatusCode, ShouldEqual, 409)
+			client.GET("/api/v1/reports").
+				SetDebug(true).
+    			Run(server, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+    				So(r.Code, ShouldEqual, 409)
 
-			raw := resp.JSON().Object().Raw()
-			So(raw, ShouldContainKey, "code")
-			So(raw, ShouldContainKey, "message")
+    				var resp map[string]string
+    				raw := []byte(r.Body.String())
+
+    				json.Unmarshal(raw, &resp)
+					So(resp, ShouldContainKey, "code")
+					So(resp, ShouldContainKey, "message")
+    			})
+
 		})
 		
 		Convey("Should returns data for chart's usage", func() {
-			resp := e.GET("/reports").
-					  WithQuery("from", "2016-01-01").
-					  WithQuery("until", "2016-12-01").
-					  WithQuery("type", "expense").
-					  WithQuery("tag", "creditcard").
-					  Expect()
+			client.GET("/api/v1/reports").
+				SetQuery(gofight.H{
+			      "from": "2016-01-01",
+			      "until": "2016-12-01",
+			      "type": "expense",
+			      "tag": "creditcard",
+			    }).
+			    Run(server, func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+    				So(r.Code, ShouldEqual, 200)
 
-			So(resp.Raw().StatusCode, ShouldEqual, 200)
+    				var resp []map[string]interface{}
+    				raw := []byte(r.Body.String())
+    				json.Unmarshal(raw, &resp)
 
-			raw := resp.JSON().Array().Raw()
-			first := raw[1].(map[string]interface{})
-			month := first["month"].(string)
-			amount := first["amount"].(float64)
-			total := first["total"].(float64)
-			So(month, ShouldEqual, "2016-01")
-			So(amount, ShouldEqual, 50.2)
-			So(total, ShouldEqual, 100)
+					first := resp[1]
+					month := first["month"].(string)
+					amount := first["amount"].(float64)
+					total := first["total"].(float64)
+					So(month, ShouldEqual, "2016-01")
+					So(amount, ShouldEqual, 50.2)
+					So(total, ShouldEqual, 100)
 
-			second := raw[2].(map[string]interface{})
-			month = second["month"].(string)
-			amount = second["amount"].(float64)
-			total = second["total"].(float64)
-			So(month, ShouldEqual, "2016-02")
-			So(amount, ShouldEqual, 320.2)
-			So(total, ShouldEqual, 890)
+					second := resp[2]
+					month = second["month"].(string)
+					amount = second["amount"].(float64)
+					total = second["total"].(float64)
+					So(month, ShouldEqual, "2016-02")
+					So(amount, ShouldEqual, 320.2)
+					So(total, ShouldEqual, 890)
+    			})
+
 		})
+
 	})
 }
-
-/*
-func IrisTester(t *testing.T) *httpexpect.Expect {
-	server :=  api.NewServer()
-	reports.NewController(server, "/api/v1", nil)
-	// service := &ServiceFake{}
-	// reports.NewController(server, "/api/v1", service)
-	handler := server.ListenVirtual().Handler
-
-	return httpexpect.WithConfig(httpexpect.Config{
-		BaseURL: "/api/v1",
-		Client: &http.Client{
-			Transport: httpexpect.NewFastBinder(handler),
-		},
-		Reporter: httpexpect.NewAssertReporter(t),
-		Printers: []httpexpect.Printer{
-			httpexpect.NewCurlPrinter(t),
-			// httpexpect.NewDebugPrinter(t, true),
-		},
-	})
-}
-*/

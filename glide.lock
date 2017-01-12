@@ -1,5 +1,5 @@
-hash: a98fc94fbce977c908caefb6b0273273ef16429f3caa830d1a99bc995ef8a970
-updated: 2017-01-11T18:51:22.624026792-02:00
+hash: ff8e96fb201e03a2851a8dd259c98ad0308ecf741ae0e2a8066d23859bc944d4
+updated: 2017-01-12T13:52:36.987047843-02:00
 imports:
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
@@ -14,6 +14,8 @@ imports:
   version: cac998c4f0959c19c638c523e374fa8e4e0bcfe3
   subpackages:
   - reflectx
+- name: github.com/jtolds/gls
+  version: 8ddce2a84170772b95dd5d576c48d517b22cac63
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
 - name: github.com/mattn/go-isatty
@@ -24,6 +26,12 @@ imports:
   version: 4e24498b31dba4683efb9d35c1c8a91e2eda28c8
 - name: github.com/parnurzeal/gorequest
   version: 2aea80ce763523ecc6452e61c3727ae9595a5809
+- name: github.com/smartystreets/assertions
+  version: e9a2f6771d97c709b2f7609fdf89ebde8b64c926
+- name: github.com/smartystreets/goconvey
+  version: d4c757aa9afd1e2fc1832aaab209b5794eb336e1
+  subpackages:
+  - convey
 - name: golang.org/x/net
   version: f315505cf3349909cdf013ea56690da34e96a451
   subpackages:
@@ -33,6 +41,8 @@ imports:
   version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
+- name: gopkg.in/appleboy/gofight.v2
+  version: beadc315fb676177c07a89c34159b9ca4e1aafd9
 - name: gopkg.in/gin-contrib/cors.v1
   version: fb918bcd825b9e20f0c3c365981baf9454029b6c
 - name: gopkg.in/gin-gonic/gin.v1
