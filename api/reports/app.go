@@ -11,7 +11,7 @@ func New(server *gin.Engine, params map[string]interface{}) {
 	if val, ok := params["service"]; ok {
 		service = val.(Reporter)
 		handler := NewHandler(service)
-		server.GET(baseUrl + "/reports", handler.Report)
+		server.GET(baseUrl+"/reports", handler.Report)
 	} else {
 		log.Fatal("No service defined.")
 	}

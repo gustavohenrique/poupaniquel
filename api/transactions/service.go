@@ -1,9 +1,9 @@
 package transactions
 
 import (
-	"strings"
-	"fmt"
 	"errors"
+	"fmt"
+	"strings"
 )
 
 type TransactionManager interface {
@@ -13,7 +13,7 @@ type TransactionManager interface {
 	Save(Transaction) (error, int64)
 }
 
-type Service struct {}
+type Service struct{}
 
 var dao *Dao
 
@@ -63,16 +63,16 @@ func (*Service) Save(transaction Transaction) (error, int64) {
 func toRaw(transaction Transaction) Raw {
 	tags := []string{}
 	for _, tag := range transaction.Tags {
-		tags = append(tags, "|" + strings.Trim(tag, " ") + "|")
+		tags = append(tags, "|"+strings.Trim(tag, " ")+"|")
 	}
 	return Raw{
-		CreatedAt: transaction.CreatedAt,
-		DueDate: transaction.DueDate,
-		Type: transaction.Type,
+		CreatedAt:   transaction.CreatedAt,
+		DueDate:     transaction.DueDate,
+		Type:        transaction.Type,
 		Description: transaction.Description,
-		Amount: float64(transaction.Amount),
-		Tags: strings.Join(tags, ","),
-		ParentId: int64(transaction.ParentId),
+		Amount:      float64(transaction.Amount),
+		Tags:        strings.Join(tags, ","),
+		ParentId:    int64(transaction.ParentId),
 	}
 }
 
@@ -85,18 +85,18 @@ func toTransaction(list []Raw) (transactions []Transaction) {
 	majorRecursiveNumber := list[len(list)-1].RecursiveNumber
 	recursiveNumber := majorRecursiveNumber
 
-	for i := len(list)-1; i >= 0; i-- {
+	for i := len(list) - 1; i >= 0; i-- {
 		rawItem := list[i]
 		transaction := Transaction{
-			Id: rawItem.Id,
-			ParentId: rawItem.ParentId,
-			CreatedAt: rawItem.CreatedAt,
-			DueDate: rawItem.DueDate,
-			Type: rawItem.Type,
+			Id:          rawItem.Id,
+			ParentId:    rawItem.ParentId,
+			CreatedAt:   rawItem.CreatedAt,
+			DueDate:     rawItem.DueDate,
+			Type:        rawItem.Type,
 			Description: rawItem.Description,
-			Amount: rawItem.Amount,
-			Tags: strings.Split(strings.Replace(rawItem.Tags, "|", "", -1), ","),
-			Children: []Transaction{},
+			Amount:      rawItem.Amount,
+			Tags:        strings.Split(strings.Replace(rawItem.Tags, "|", "", -1), ","),
+			Children:    []Transaction{},
 		}
 		if recursiveNumber == rawItem.RecursiveNumber {
 			if rawItem.RecursiveNumber < majorRecursiveNumber {
@@ -113,7 +113,7 @@ func toTransaction(list []Raw) (transactions []Transaction) {
 	return transactions
 }
 
-func push(original []Transaction, transaction Transaction) ([]Transaction) {
+func push(original []Transaction, transaction Transaction) []Transaction {
 	if original == nil {
 		return []Transaction{transaction}
 	} else {
@@ -121,7 +121,7 @@ func push(original []Transaction, transaction Transaction) ([]Transaction) {
 	}
 }
 
-func setChildrenForTransaction(children []Transaction, transaction Transaction) (Transaction) {
+func setChildrenForTransaction(children []Transaction, transaction Transaction) Transaction {
 	for _, child := range children {
 		if child.ParentId == transaction.Id {
 			transaction.Children = append(transaction.Children, child)
@@ -132,7 +132,7 @@ func setChildrenForTransaction(children []Transaction, transaction Transaction) 
 }
 
 func reverse(original []Transaction) (reversed []Transaction) {
-	for i := len(original)-1; i >= 0; i-- {
+	for i := len(original) - 1; i >= 0; i-- {
 		reversed = append(reversed, original[i])
 	}
 	return reversed

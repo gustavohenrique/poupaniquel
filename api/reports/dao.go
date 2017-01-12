@@ -6,7 +6,7 @@ import (
 	"github.com/gustavohenrique/poupaniquel/api/database"
 )
 
-type Dao struct {}
+type Dao struct{}
 
 func NewDao() *Dao {
 	return &Dao{}
@@ -34,9 +34,9 @@ func (this *Dao) ByTag(params map[string]interface{}) (err error, result []map[s
 			return err, result
 		}
 		result = append(result, map[string]interface{}{
-			"month": month,
+			"month":  month,
 			"amount": amount,
-			"total": total,
+			"total":  total,
 		})
 	}
 	return err, result

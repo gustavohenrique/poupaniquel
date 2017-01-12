@@ -4,20 +4,19 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-
 )
 
 func TestConvertFromRawToTransactionAndAddChildrenRecursively(t *testing.T) {
 	raw := []Raw{
-		Raw{Id:1, Description: "Mastercard", ParentId: 0, RecursiveNumber: 1},
-		Raw{Id:3, Description: "Clothes", ParentId: 0, RecursiveNumber: 1},
-		Raw{Id:4, Description: "Internet", ParentId: 0, RecursiveNumber: 1},
-		Raw{Id:2, Description: "Superstore", ParentId: 1, RecursiveNumber: 2},
-		Raw{Id:8, Description: "Travel", ParentId: 1, RecursiveNumber: 2},
-		Raw{Id:6, Description: "Bread", ParentId: 2, RecursiveNumber: 3},
-		Raw{Id:7, Description: "Drink", ParentId: 2, RecursiveNumber: 3},
-		Raw{Id:9, Description: "Flight to Brazil", ParentId: 8, RecursiveNumber: 3},
-		Raw{Id:5, Description: "Soda", ParentId: 7, RecursiveNumber: 4},
+		Raw{Id: 1, Description: "Mastercard", ParentId: 0, RecursiveNumber: 1},
+		Raw{Id: 3, Description: "Clothes", ParentId: 0, RecursiveNumber: 1},
+		Raw{Id: 4, Description: "Internet", ParentId: 0, RecursiveNumber: 1},
+		Raw{Id: 2, Description: "Superstore", ParentId: 1, RecursiveNumber: 2},
+		Raw{Id: 8, Description: "Travel", ParentId: 1, RecursiveNumber: 2},
+		Raw{Id: 6, Description: "Bread", ParentId: 2, RecursiveNumber: 3},
+		Raw{Id: 7, Description: "Drink", ParentId: 2, RecursiveNumber: 3},
+		Raw{Id: 9, Description: "Flight to Brazil", ParentId: 8, RecursiveNumber: 3},
+		Raw{Id: 5, Description: "Soda", ParentId: 7, RecursiveNumber: 4},
 	}
 
 	trans := toTransaction(raw)

@@ -17,13 +17,13 @@ func NewServer() *gin.Engine {
 	// gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
 	server.Use(cors.New(cors.Config{
-        // AllowOrigins:     []string{"*"},
-        AllowAllOrigins:  true,
-        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-        AllowHeaders:     []string{"Link", "Location", "Accept", "Authorization", "Content-Type"},
-        ExposeHeaders:    []string{"Link", "Location"},
-        MaxAge: 1 * time.Hour,
-    }))
+		// AllowOrigins:     []string{"*"},
+		AllowAllOrigins: true,
+		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:    []string{"Link", "Location", "Accept", "Authorization", "Content-Type"},
+		ExposeHeaders:   []string{"Link", "Location"},
+		MaxAge:          1 * time.Hour,
+	}))
 
 	return server
 }

@@ -1,5 +1,7 @@
 package webpage
+
 import "gopkg.in/gin-gonic/gin.v1"
+
 func ServeHtml(ctx *gin.Context) {
 	content := `
 		<!DOCTYPE html>
@@ -25,6 +27,6 @@ func ServeHtml(ctx *gin.Context) {
 </body>
 </html>
 	`
-  ctx.Writer.Header().Set("Content-Type", "text/html")
-  ctx.String(200, content)
+	ctx.Writer.Header().Set("Content-Type", "text/html")
+	ctx.String(200, content)
 }

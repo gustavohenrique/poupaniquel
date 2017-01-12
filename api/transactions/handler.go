@@ -8,7 +8,7 @@ import (
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
-type Handler struct {}
+type Handler struct{}
 
 var service TransactionManager
 var helper = NewHelper()

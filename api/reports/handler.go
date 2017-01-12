@@ -1,14 +1,14 @@
 package reports
 
 import (
+	"errors"
 	"log"
 	"time"
-	"errors"
 
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
-type Handler struct {}
+type Handler struct{}
 
 var service Reporter
 
@@ -22,7 +22,7 @@ func (*Handler) Report(ctx *gin.Context) {
 	if err != nil {
 		log.Println("Error getting query data to generate report.", err)
 		ctx.JSON(409, map[string]interface{}{
-			"code": "InsuficientParametersError",
+			"code":    "InsuficientParametersError",
 			"message": err,
 		})
 		return
@@ -32,7 +32,7 @@ func (*Handler) Report(ctx *gin.Context) {
 	if err != nil {
 		log.Println("Error generating report by tag.", err)
 		ctx.JSON(400, map[string]interface{}{
-			"code": "ReportError",
+			"code":    "ReportError",
 			"message": err,
 		})
 		return
@@ -54,10 +54,10 @@ func getParamsFrom(ctx *gin.Context) (err error, params map[string]interface{}) 
 	if err != nil {
 		return err, params
 	}
-	return err, map[string]interface{} {
-		"tag": tag,
-		"type": transactionType,
+	return err, map[string]interface{}{
+		"tag":       tag,
+		"type":      transactionType,
 		"startDate": startDate,
-		"endDate": endDate,
+		"endDate":   endDate,
 	}
 }

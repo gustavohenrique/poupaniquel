@@ -9,7 +9,7 @@ import (
 	"github.com/gustavohenrique/poupaniquel/api/transactions"
 )
 
-type Handler struct {}
+type Handler struct{}
 
 var service ApiImporter
 
@@ -29,17 +29,17 @@ func (*Handler) ImportData(ctx *gin.Context) {
 	ctx.BindJSON(&data)
 	// if err != nil {
 	ctx.JSON(409, map[string]string{
-		"code": "InvalidRequestError",
+		"code":    "InvalidRequestError",
 		"message": "Credential invalid.",
 	})
-		// return
+	// return
 	// }
 
 	_, discovery := service.Discover()
 	err, auth := service.Authenticate(discovery["authUrl"], data["username"], data["password"])
 	if err != nil {
 		ctx.JSON(400, map[string]interface{}{
-			"code": "NubankAuthenticationError",
+			"code":    "NubankAuthenticationError",
 			"message": err,
 		})
 		return
@@ -49,7 +49,7 @@ func (*Handler) ImportData(ctx *gin.Context) {
 	err, bills := service.GetBillsSummary(auth["url"], auth["token"])
 	if err != nil {
 		ctx.JSON(400, map[string]interface{}{
-			"code": "NubankBillsSummaryError",
+			"code":    "NubankBillsSummaryError",
 			"message": err,
 		})
 		return
@@ -62,7 +62,7 @@ func (*Handler) ImportData(ctx *gin.Context) {
 		err, items := service.GetBillItems(bill["link"].(string), auth["token"])
 		if err != nil {
 			ctx.JSON(400, map[string]interface{}{
-				"code": "NubankBillTransactionsError",
+				"code":    "NubankBillTransactionsError",
 				"message": err,
 			})
 			return
@@ -72,10 +72,10 @@ func (*Handler) ImportData(ctx *gin.Context) {
 		dueDate, _ := time.Parse("2006-01-02", bill["dueDate"].(string))
 		parent := transactions.Transaction{
 			Description: "Nubank",
-			Amount: bill["paid"].(float64),
-			DueDate: dueDate,
-			Type: "expense",
-			Tags: []string{"|nubank|,|creditcard|"},
+			Amount:      bill["paid"].(float64),
+			DueDate:     dueDate,
+			Type:        "expense",
+			Tags:        []string{"|nubank|,|creditcard|"},
 		}
 		err, parentId := transactionService.Save(parent)
 		if err != nil {
@@ -87,22 +87,22 @@ func (*Handler) ImportData(ctx *gin.Context) {
 		for _, item := range items {
 			// Disabled fetching details and tags because "too many requests" =/
 			/*
-			log.Printf("Fetching details about item %s", item["id"])
-			url := fmt.Sprintf("%s/%s", TransactionDetailsUrlBase, item["transactionId"])
-			err, details := service.GetTransactionDetails(url, auth["token"])
-			if err != nil {
-				log.Println("Problems to get details for the transsaction.", err)
-				continue
-			}
-			date, _ := details["date"].(time.Time)
+				log.Printf("Fetching details about item %s", item["id"])
+				url := fmt.Sprintf("%s/%s", TransactionDetailsUrlBase, item["transactionId"])
+				err, details := service.GetTransactionDetails(url, auth["token"])
+				if err != nil {
+					log.Println("Problems to get details for the transsaction.", err)
+					continue
+				}
+				date, _ := details["date"].(time.Time)
 			*/
 			date, _ := time.Parse("2006-01-02", item["date"].(string))
 			children := transactions.Transaction{
 				Description: item["title"].(string),
-				DueDate: date,
-				Type: "expense",
-				ParentId: parentId,
-				Amount: item["amount"].(float64),
+				DueDate:     date,
+				Type:        "expense",
+				ParentId:    parentId,
+				Amount:      item["amount"].(float64),
 				// Amount: details["amount"].(float64),
 				// Tags: details["tags"].([]string),
 			}
@@ -115,6 +115,6 @@ func (*Handler) ImportData(ctx *gin.Context) {
 	}
 
 	log.Println("Nubank import is finished.")
-	
+
 	ctx.JSON(200, "")
 }

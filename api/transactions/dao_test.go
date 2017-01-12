@@ -1,8 +1,8 @@
 package transactions_test
 
 import (
-	"testing"
 	"os"
+	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
@@ -14,7 +14,7 @@ import (
 var dao = transactions.NewDao()
 
 func TestMain(m *testing.M) {
-	initial := []string {
+	initial := []string{
 		`INSERT INTO transactions (id, description, amount, parentId, tags) VALUES (1, 'Mastercard', 1000, 0, '|creditcard|')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags) VALUES (2, 'Superstore', 300, 1, '|superstore|,|home|')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags) VALUES (3, 'Travel', 700, 1, '|travel|,|fun|')`,
@@ -31,7 +31,7 @@ func TestMain(m *testing.M) {
 	db := database.Create()
 	database.BulkInsert(db, initial)
 
-    os.Exit(m.Run())
+	os.Exit(m.Run())
 }
 
 func TestFetchAll(t *testing.T) {
@@ -110,13 +110,13 @@ func TestFetchOne(t *testing.T) {
 
 func TestCreate(t *testing.T) {
 	raw := transactions.Raw{
-		CreatedAt: time.Now(),
-		DueDate: time.Now(),
-		Type: "expense",
+		CreatedAt:   time.Now(),
+		DueDate:     time.Now(),
+		Type:        "expense",
 		Description: "my first transaction",
-		Amount: float64(50),
-		Tags: "|t1|,|t2|",
-		ParentId: 0,
+		Amount:      float64(50),
+		Tags:        "|t1|,|t2|",
+		ParentId:    0,
 	}
 	err, id := dao.Create(raw)
 	assert.Nil(t, err)
@@ -125,14 +125,14 @@ func TestCreate(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	raw := transactions.Raw{
-		Id: 1,
-		CreatedAt: time.Now(),
-		DueDate: time.Now(),
-		Type: "expense",
+		Id:          1,
+		CreatedAt:   time.Now(),
+		DueDate:     time.Now(),
+		Type:        "expense",
 		Description: "my first transaction",
-		Amount: float64(50),
-		Tags: "|t1|,|t2|",
-		ParentId: 0,
+		Amount:      float64(50),
+		Tags:        "|t1|,|t2|",
+		ParentId:    0,
 	}
 	err, id := dao.Update(raw)
 	assert.Nil(t, err)

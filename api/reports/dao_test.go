@@ -1,8 +1,8 @@
 package reports_test
 
 import (
-	"testing"
 	"os"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
 
@@ -13,7 +13,7 @@ import (
 var dao = reports.NewDao()
 
 func TestMain(m *testing.M) {
-	initial := []string {
+	initial := []string{
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (1, 'Mastercard', 1000, 0, '|creditcard|', '2016-01-05')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (2, 'Superstore', 300, 1, '|superstore|,|home|', '2016-01-10')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (3, 'Travel', 700, 1, '|travel|,|fun|', '2016-01-10')`,
@@ -24,22 +24,21 @@ func TestMain(m *testing.M) {
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (8, 'Dinner with friends', 300, 7, '|friends|,|dinner|,|fun|,|creditcard|', '2016-02-05')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (9, 'Clothes', 100, 0, '|clothes|,|creditcard|', '2016-03-07')`,
 		`INSERT INTO transactions (id, description, amount, parentId, tags, dueDate) VALUES (10, 'Restaurant', 90, 0, '|restaurant|,|food|,|creditcard|', '2016-03-18')`,
-
 	}
 
 	os.Setenv("POUPANIQUEL_DB_PATH", ":memory:")
 	db := database.Create()
 	database.BulkInsert(db, initial)
 
-    os.Exit(m.Run())
+	os.Exit(m.Run())
 }
 
 func TestGetReportByTag(t *testing.T) {
 	params := map[string]interface{}{
-		"type": "expense",
+		"type":      "expense",
 		"startDate": "2016-01-01",
-		"endDate": "2016-04-01",
-		"tag": "creditcard",
+		"endDate":   "2016-04-01",
+		"tag":       "creditcard",
 	}
 	err, result := dao.ByTag(params)
 	assert.Nil(t, err)

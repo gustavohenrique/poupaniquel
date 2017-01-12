@@ -7,7 +7,7 @@ import (
 	"gopkg.in/gin-gonic/gin.v1"
 )
 
-type Helper struct {}
+type Helper struct{}
 
 func NewHelper() *Helper {
 	return &Helper{}
@@ -15,7 +15,7 @@ func NewHelper() *Helper {
 
 func (*Helper) CreateErrorMap(err error) map[string]string {
 	return map[string]string{
-		"code": "BadRequest",
+		"code":    "BadRequest",
 		"message": fmt.Sprintf("%v", err),
 	}
 }
@@ -36,8 +36,8 @@ func (*Helper) GetPageParameters(ctx *gin.Context) map[string]interface{} {
 	}
 
 	return map[string]interface{}{
-		"page": page,
+		"page":    page,
 		"perPage": perPage,
-		"sort": sort,
+		"sort":    sort,
 	}
 }

@@ -1,8 +1,8 @@
 package transactions
 
 import (
-	"time"
 	"errors"
+	"time"
 )
 
 type (

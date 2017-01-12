@@ -7,7 +7,7 @@ import (
 	"github.com/gustavohenrique/poupaniquel/api/database"
 )
 
-type Dao struct {}
+type Dao struct{}
 
 func NewDao() *Dao {
 	return &Dao{}
@@ -93,7 +93,7 @@ func (this *Dao) Update(raw Raw) (error, int64) {
 	return err, raw.Id
 }
 
-func (this *Dao) getOrDefault (dict map[string]interface{}, key string, defaultValue interface{}) interface{} {
+func (this *Dao) getOrDefault(dict map[string]interface{}, key string, defaultValue interface{}) interface{} {
 	var result = dict[key]
 	if result == nil {
 		result = defaultValue

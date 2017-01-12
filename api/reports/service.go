@@ -4,7 +4,7 @@ type Reporter interface {
 	ByTag(map[string]interface{}) (error, []map[string]interface{})
 }
 
-type Service struct {}
+type Service struct{}
 
 var dao *Dao
 

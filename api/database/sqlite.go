@@ -1,10 +1,10 @@
 package database
 
 import (
-	"log"
-	"os"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
+	"log"
+	"os"
 )
 
 var instance *sqlx.DB
@@ -38,12 +38,12 @@ func Create() *sqlx.DB {
 		unique(dueDate, description, amount)
 	)`
 	tables := []string{transactions}
-	
+
 	db := Connect()
 	for _, createTable := range tables {
 		db.MustExec(createTable)
 	}
-	return db;
+	return db
 }
 
 func BulkInsert(db *sqlx.DB, data []string) {
