@@ -18,7 +18,7 @@ install:
 	go install
 
 packages:
-	time xgo -go develop --targets=darwin/amd64,linux/amd64,windows/amd64 $(GOPATH)/src/github.com/gustavohenrique/poupaniquel
+	time ${GOPATH}/bin/xgo -go 1.7 --targets=darwin/amd64,linux/amd64,windows/amd64 $(GOPATH)/src/github.com/gustavohenrique/poupaniquel
 
 static:
 	scripts/static.sh
